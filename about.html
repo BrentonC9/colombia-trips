@@ -1,0 +1,102 @@
+// Colombia Trips Co. — Service Worker
+// Handles offline caching so the app works without internet
+
+const CACHE_NAME = 'colombia-trips-v1';
+const OFFLINE_URL = '/offline.html';
+
+// Files to cache immediately when the app is installed
+const PRE_CACHE = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/offline.html',
+  '/healthcare.html',
+  '/vacation.html',
+  '/support.html',
+  '/about.html',
+  'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=DM+Sans:wght@300;400;500&display=swap'
+];
+
+// ── INSTALL: pre-cache all key pages
+self.addEventListener('install', event => {
+  console.log('[SW] Installing Colombia Trips Co. service worker...');
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      console.log('[SW] Pre-caching app shell');
+      return cache.addAll(PRE_CACHE);
+    }).then(() => self.skipWaiting())
+  );
+});
+
+// ── ACTIVATE: clean up old caches
+self.addEventListener('activate', event => {
+  console.log('[SW] Activating new service worker...');
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames
+          .filter(name => name !== CACHE_NAME)
+          .map(name => {
+            console.log('[SW] Deleting old cache:', name);
+            return caches.delete(name);
+          })
+      );
+    }).then(() => self.clients.claim())
+  );
+});
+
+// ── FETCH: serve from cache first, fall back to network
+self.addEventListener('fetch', event => {
+  // Skip non-GET requests and browser extensions
+  if (event.request.method !== 'GET') return;
+  if (event.request.url.startsWith('chrome-extension')) return;
+
+  event.respondWith(
+    caches.match(event.request).then(cachedResponse => {
+      if (cachedResponse) {
+        // Serve from cache
+        return cachedResponse;
+      }
+
+      // Not in cache — fetch from network and cache the response
+      return fetch(event.request).then(networkResponse => {
+        // Only cache successful responses
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type === 'opaque') {
+          return networkResponse;
+        }
+
+        const responseToCache = networkResponse.clone();
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, responseToCache);
+        });
+
+        return networkResponse;
+      }).catch(() => {
+        // Network failed — show offline page for navigation requests
+        if (event.request.mode === 'navigate') {
+          return caches.match(OFFLINE_URL);
+        }
+      });
+    })
+  );
+});
+
+// ── PUSH NOTIFICATIONS (ready for future use)
+self.addEventListener('push', event => {
+  if (!event.data) return;
+  const data = event.data.json();
+  self.registration.showNotification(data.title || 'Colombia Trips Co.', {
+    body: data.body || 'New update from Colombia Trips Co.',
+    icon: '/icons/icon-192x192.png',
+    badge: '/icons/icon-96x96.png',
+    vibrate: [100, 50, 100],
+    data: { url: data.url || '/' }
+  });
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  event.waitUntil(
+    clients.openWindow(event.notification.data.url)
+  );
+});

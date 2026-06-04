@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us — Colombia Trips Co.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ocean:    #0B7EA8;
+      --ocean-lt: #5EC4E8;
+      --ocean-dk: #075A7A;
+      --night:    #08151E;
+      --navy:     #0D1F2D;
+      --gold:     #D4A843;
+      --gold-lt:  #F0C96B;
+      --coral:    #E76F51;
+      --sand:     #F5EFE0;
+      --text:     #0D1A22;
+      --white:    #FFFFFF;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--night);color:var(--white);overflow-x:hidden}
+    #cursorGlow{position:fixed;width:320px;height:320px;background:radial-gradient(circle,rgba(11,126,168,0.07) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left 0.08s,top 0.08s}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:72px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,21,30,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(11,126,168,0.1)}
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:#fff;text-decoration:none}
+    .nav-logo span{color:var(--gold);font-style:italic}
+    .nav-links{display:flex;gap:32px;list-style:none}
+    .nav-links a{font-size:13px;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s}
+    .nav-links a:hover,.nav-links a.active{color:var(--ocean-lt)}
+    .nav-actions{display:flex;align-items:center;gap:10px}
+    .nav-login{font-size:13px;padding:9px 22px;border-radius:50px;background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .nav-login:hover{border-color:var(--ocean-lt);color:var(--ocean-lt)}
+    .nav-btn{font-size:13px;font-weight:500;padding:10px 24px;border-radius:50px;background:var(--ocean);border:none;color:#fff;cursor:pointer;text-decoration:none;transition:background 0.2s,transform 0.15s}
+    .nav-btn:hover{background:var(--ocean-lt);transform:translateY(-1px)}
+
+    /* HERO */
+    .page-hero{padding:160px 80px 100px;background:linear-gradient(160deg,var(--night) 0%,#081824 60%,var(--night) 100%);position:relative;overflow:hidden;text-align:center}
+    .page-hero::before{content:'';position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(11,126,168,0.07) 0%,transparent 70%);top:-250px;left:50%;transform:translateX(-50%)}
+    .page-hero-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--ocean-lt);margin-bottom:16px;display:block}
+    .page-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,90px);font-weight:300;color:#fff;line-height:0.95;letter-spacing:-1px;margin-bottom:24px}
+    .page-hero h1 em{font-style:italic;color:var(--ocean-lt)}
+    .page-hero p{font-size:18px;color:rgba(255,255,255,0.55);line-height:1.8;max-width:580px;margin:0 auto;font-weight:300}
+
+    /* STORY */
+    .story{padding:90px 80px;background:var(--navy)}
+    .story-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1100px;margin:0 auto}
+    .story-img{height:540px;border-radius:24px;overflow:hidden;position:relative;background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&q=85&fit=crop') center/cover}
+    .story-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,21,30,0.6) 0%,transparent 50%)}
+    .story-quote{position:absolute;bottom:28px;left:28px;right:28px;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;font-style:italic;color:rgba(255,255,255,0.85);line-height:1.5;z-index:1}
+    .story-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--ocean-lt);margin-bottom:16px}
+    .story-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,52px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:20px}
+    .story-title em{font-style:italic;color:var(--ocean-lt)}
+    .story-text{font-size:15px;color:rgba(255,255,255,0.55);line-height:1.85;margin-bottom:16px;font-weight:300}
+
+    /* TEAM */
+    .team{padding:90px 80px;background:var(--night)}
+    .team-header{text-align:center;margin-bottom:64px}
+    .team-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--ocean-lt);margin-bottom:12px}
+    .team-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,54px);font-weight:300;color:#fff}
+    .team-title em{font-style:italic;color:var(--ocean-lt)}
+    .team-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:900px;margin:0 auto}
+    .team-card{background:rgba(11,126,168,0.05);border:1px solid rgba(11,126,168,0.15);border-radius:24px;padding:44px;position:relative;overflow:hidden;transition:border-color 0.3s,background 0.3s}
+    .team-card:hover{border-color:rgba(11,126,168,0.3);background:rgba(11,126,168,0.08)}
+    .team-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--ocean-lt);transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
+    .team-card:hover::before{transform:scaleX(1)}
+    .team-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--ocean),var(--ocean-lt));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#fff;margin-bottom:20px}
+    .team-role{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ocean-lt);margin-bottom:8px}
+    .team-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#fff;margin-bottom:12px}
+    .team-bio{font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7}
+    .team-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+    .team-tag{font-size:11px;color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:4px 12px}
+
+    /* MISSION */
+    .mission{padding:90px 80px;background:var(--navy)}
+    .mission-inner{max-width:900px;margin:0 auto;text-align:center}
+    .mission-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--ocean-lt);margin-bottom:16px}
+    .mission-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,60px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:28px}
+    .mission-title em{font-style:italic;color:var(--ocean-lt)}
+    .mission-text{font-size:17px;color:rgba(255,255,255,0.5);line-height:1.85;font-weight:300;margin-bottom:48px}
+    .mission-values{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:left}
+    .value-card{background:rgba(11,126,168,0.05);border:1px solid rgba(11,126,168,0.12);border-radius:18px;padding:28px;transition:border-color 0.2s,transform 0.2s}
+    .value-card:hover{border-color:rgba(11,126,168,0.3);transform:translateY(-3px)}
+    .value-icon{font-size:28px;margin-bottom:12px}
+    .value-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#fff;margin-bottom:8px}
+    .value-text{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6}
+
+    /* WHY BUILT */
+    .why-built{padding:90px 80px;background:var(--night)}
+    .why-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1100px;margin:0 auto}
+    .why-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,52px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:20px}
+    .why-title em{font-style:italic;color:var(--ocean-lt)}
+    .why-text{font-size:15px;color:rgba(255,255,255,0.5);line-height:1.85;margin-bottom:16px;font-weight:300}
+    .why-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+    .why-stat{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:20px}
+    .why-stat-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--ocean-lt);line-height:1;margin-bottom:4px}
+    .why-stat-label{font-size:12px;color:rgba(255,255,255,0.4)}
+    .why-img{height:500px;border-radius:24px;background:url('https://images.unsplash.com/photo-1558642084-fd07fae5282e?w=900&q=85&fit=crop') center/cover;transition:transform 0.5s}
+    .why-img:hover{transform:scale(1.02)}
+
+    /* CTA */
+    .cta-section{padding:80px;background:var(--navy)}
+    .cta-box{max-width:900px;margin:0 auto;background:linear-gradient(135deg,rgba(11,126,168,0.1) 0%,rgba(11,126,168,0.04) 100%);border:1px solid rgba(11,126,168,0.2);border-radius:28px;padding:72px 60px;text-align:center;position:relative;overflow:hidden}
+    .cta-box::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(11,126,168,0.08) 0%,transparent 70%);top:-200px;right:-150px;pointer-events:none}
+    .cta-box h2{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5vw,54px);font-weight:300;color:#fff;margin-bottom:16px;line-height:1.1}
+    .cta-box h2 em{font-style:italic;color:var(--ocean-lt)}
+    .cta-box p{font-size:17px;color:rgba(255,255,255,0.5);margin-bottom:40px;font-weight:300;line-height:1.7}
+    .btn-ocean{font-size:15px;font-weight:500;padding:16px 36px;border-radius:50px;background:var(--ocean);color:#fff;text-decoration:none;box-shadow:0 0 28px rgba(11,126,168,0.35);transition:background 0.2s,transform 0.15s;display:inline-block;margin-right:14px}
+    .btn-ocean:hover{background:var(--ocean-lt);transform:translateY(-2px)}
+    .btn-ghost{font-size:15px;padding:15px 32px;border-radius:50px;background:transparent;color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.2);text-decoration:none;transition:all 0.2s;display:inline-block}
+    .btn-ghost:hover{border-color:var(--ocean-lt);color:var(--ocean-lt);transform:translateY(-2px)}
+
+    footer{background:var(--night);padding:40px 60px 28px;border-top:1px solid rgba(255,255,255,0.05)}
+    .ft-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .ft-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#fff;text-decoration:none}
+    .ft-logo span{color:var(--gold);font-style:italic}
+    .ft-links-row{display:flex;gap:24px}
+    .ft-links-row a{font-size:12px;color:rgba(255,255,255,0.25);text-decoration:none;transition:color 0.2s}
+    .ft-links-row a:hover{color:var(--ocean-lt)}
+    .ft-copy{font-size:12px;color:rgba(255,255,255,0.2)}
+
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease}
+    .reveal.left{transform:translateX(-28px)}
+    .reveal.right{transform:translateX(28px)}
+    .reveal.visible{opacity:1;transform:translate(0)}
+    .d1{transition-delay:0.1s}.d2{transition-delay:0.2s}.d3{transition-delay:0.3s}
+
+    @media(max-width:960px){
+      nav{padding:0 20px}
+      .nav-links{display:none}
+      .page-hero{padding:130px 24px 70px}
+      .story,.team,.mission,.why-built,.cta-section{padding:60px 24px}
+      .story-inner,.why-inner{grid-template-columns:1fr}
+      .story-img,.why-img{height:280px}
+      .team-grid{grid-template-columns:1fr}
+      .mission-values{grid-template-columns:1fr 1fr}
+      .cta-box{padding:44px 24px}
+      footer{padding:36px 24px 24px}
+    }
+  </style>
+</head>
+<body>
+  <div id="cursorGlow"></div>
+  <nav>
+    <a href="index.html" class="nav-logo">Colombia <span>Trips</span></a>
+    <ul class="nav-links">
+      <li><a href="vacation.html">Destinations</a></li>
+      <li><a href="hotels.html">Hotels & Dining</a></li>
+      <li><a href="healthcare.html">Healthcare</a></li>
+      <li><a href="packages.html">Packages</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="nav-login">Log In</a>
+      <a href="packages.html" class="nav-btn">Get Started</a>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <span class="page-hero-label">Our Story</span>
+    <h1>Built by people who<br><em>love Colombia</em></h1>
+    <p>Colombia Trips Co. was born from a simple idea — Americans deserve a trusted, all-in-one resource to experience Colombia the right way. Not a travel blog. Not a booking site. A real local network.</p>
+  </div>
+
+  <section class="story">
+    <div class="story-inner">
+      <div class="story-img reveal left">
+        <div class="story-quote">"Colombia changed how I think about travel. I wanted everyone to experience what I've experienced."</div>
+      </div>
+      <div class="reveal right">
+        <div class="story-label">How We Started</div>
+        <h2 class="story-title">It started with<br><em>one trip</em></h2>
+        <p class="story-text">Colombia Trips Co. was created by two Americans who saw a massive gap in the market — millions of people curious about Colombia but held back by outdated perceptions and zero trusted resources built specifically for them.</p>
+        <p class="story-text">Our co-founder Chris has spent years traveling to Colombia — 4 to 5 trips a year — building real personal relationships with hotel owners, restaurant operators, doctors, and local guides. That network is the foundation of everything we offer.</p>
+        <p class="story-text">We're not a tech company that built a travel app. We're people who love Colombia, who know Colombia, and who wanted to share it with every American who's been curious but never took the leap.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="team">
+    <div class="team-header reveal">
+      <div class="team-label">The Team</div>
+      <h2 class="team-title">The people behind<br><em>Colombia Trips Co.</em></h2>
+    </div>
+    <div class="team-grid">
+      <div class="team-card reveal d1">
+        <div class="team-avatar">B</div>
+        <div class="team-role">Co-Founder · Business Lead</div>
+        <div class="team-name">Brenton</div>
+        <div class="team-bio">The visionary and engine behind Colombia Trips Co. Brenton oversees business operations, marketing, the website, and the overall growth strategy. His mission is to make Colombia accessible, trustworthy, and irresistible for every American traveler.</div>
+        <div class="team-tags">
+          <span class="team-tag">Business Strategy</span>
+          <span class="team-tag">Marketing</span>
+          <span class="team-tag">Operations</span>
+          <span class="team-tag">Florida, USA</span>
+        </div>
+      </div>
+      <div class="team-card reveal d2">
+        <div class="team-avatar">C</div>
+        <div class="team-role">Co-Founder · Colombia Expert</div>
+        <div class="team-name">Chris</div>
+        <div class="team-bio">The heart of our network. Chris is an American who has traveled to Colombia 4-5 times every year, building personal relationships with the country's best hotels, restaurants, doctors, and hidden-gem destinations. He speaks Spanish fluently and his contacts are the foundation of everything Colombia Trips Co. offers.</div>
+        <div class="team-tags">
+          <span class="team-tag">Colombia Network</span>
+          <span class="team-tag">Spanish Speaking</span>
+          <span class="team-tag">Local Relationships</span>
+          <span class="team-tag">On-Ground Expert</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mission">
+    <div class="mission-inner">
+      <div class="reveal">
+        <div class="mission-label">Our Mission</div>
+        <h2 class="mission-title">Make Colombia<br><em>accessible</em> to every American</h2>
+        <p class="mission-text">We believe Colombia is one of the most extraordinary travel destinations in the world — and that every American who wants to experience it deserves a trusted, knowledgeable partner to help them do it right. That's Colombia Trips Co.</p>
+      </div>
+      <div class="mission-values reveal">
+        <div class="value-card">
+          <div class="value-icon">🤝</div>
+          <div class="value-name">Real Relationships</div>
+          <div class="value-text">Every recommendation comes from a personal connection — not an algorithm or a paid placement.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🎯</div>
+          <div class="value-name">Americans First</div>
+          <div class="value-text">Everything we build is designed specifically for American travelers — their concerns, their needs, their budget.</div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🌿</div>
+          <div class="value-name">Honest & Transparent</div>
+          <div class="value-text">We tell you what we know, what we don't, and what to expect — no sugarcoating, no sales pressure.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="why-built">
+    <div class="why-inner">
+      <div class="reveal left">
+        <div class="story-label">Why We Built This</div>
+        <h2 class="why-title">Colombia deserves<br><em>better representation</em></h2>
+        <p class="why-text">Colombia has one of the most unfair reputations in travel. The reality on the ground — the people, the food, the landscapes, the culture — is so far removed from what most Americans have been told that it consistently shocks first-time visitors.</p>
+        <p class="why-text">We built Colombia Trips Co. because we were tired of watching people miss out on one of the world's great travel destinations due to outdated perceptions and a lack of trustworthy resources built specifically for them.</p>
+        <div class="why-stats">
+          <div class="why-stat">
+            <div class="why-stat-num">4-5x</div>
+            <div class="why-stat-label">Per year Chris visits Colombia</div>
+          </div>
+          <div class="why-stat">
+            <div class="why-stat-num">$99</div>
+            <div class="why-stat-label">Starting price — less than one hotel night</div>
+          </div>
+          <div class="why-stat">
+            <div class="why-stat-num">24/7</div>
+            <div class="why-stat-label">Live support from people who know Colombia</div>
+          </div>
+          <div class="why-stat">
+            <div class="why-stat-num">1 Fee</div>
+            <div class="why-stat-label">No subscriptions. Ever.</div>
+          </div>
+        </div>
+      </div>
+      <div class="why-img reveal right"></div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="cta-box reveal">
+      <h2>Ready to experience<br><em>Colombia with us?</em></h2>
+      <p>Join the Colombia Trips Co. family and get access to our entire network — hotels, restaurants, healthcare, hidden hot spots, and 24/7 support.</p>
+      <a href="packages.html" class="btn-ocean">View Packages →</a>
+      <a href="support.html" class="btn-ghost">Get in Touch</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="ft-bottom">
+      <a href="index.html" class="ft-logo">Colombia <span>Trips</span></a>
+      <div class="ft-links-row">
+        <a href="vacation.html">Destinations</a>
+        <a href="hotels.html">Hotels & Dining</a>
+        <a href="healthcare.html">Healthcare</a>
+        <a href="packages.html">Packages</a>
+        <a href="support.html">Support</a>
+      </div>
+      <span class="ft-copy">© 2025 Colombia Trips Co. LLC · Sanford, Florida</span>
+    </div>
+  </footer>
+
+  <script>
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', e => { glow.style.left=e.clientX+'px'; glow.style.top=e.clientY+'px'; });
+    document.querySelectorAll('.reveal').forEach(el => new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:0.1}).observe(el));
+  </script>
+</body>
+</html>

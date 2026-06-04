@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hotels & Restaurants — Colombia Trips Co.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --coral:    #E76F51;
+      --coral-lt: #F4A48A;
+      --coral-dk: #C4532E;
+      --night:    #08151E;
+      --navy:     #0D1F2D;
+      --gold:     #D4A843;
+      --ocean-lt: #5EC4E8;
+      --sand:     #F5EFE0;
+      --text:     #0D1A22;
+      --white:    #FFFFFF;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--night);color:var(--white);overflow-x:hidden}
+    #cursorGlow{position:fixed;width:320px;height:320px;background:radial-gradient(circle,rgba(231,111,81,0.07) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left 0.08s,top 0.08s}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:72px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,21,30,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(231,111,81,0.1)}
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:#fff;text-decoration:none}
+    .nav-logo span{color:var(--gold);font-style:italic}
+    .nav-links{display:flex;gap:32px;list-style:none}
+    .nav-links a{font-size:13px;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s}
+    .nav-links a:hover,.nav-links a.active{color:var(--coral-lt)}
+    .nav-actions{display:flex;align-items:center;gap:10px}
+    .nav-login{font-size:13px;padding:9px 22px;border-radius:50px;background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .nav-login:hover{border-color:var(--coral-lt);color:var(--coral-lt)}
+    .nav-btn{font-size:13px;font-weight:500;padding:10px 24px;border-radius:50px;background:var(--coral);border:none;color:#fff;cursor:pointer;text-decoration:none;transition:background 0.2s,transform 0.15s}
+    .nav-btn:hover{background:var(--coral-lt);transform:translateY(-1px)}
+
+    /* HERO */
+    .page-hero{height:65vh;min-height:480px;position:relative;overflow:hidden;display:flex;align-items:flex-end;background:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1800&q=85&fit=crop') center/cover no-repeat}
+    .page-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,21,30,0.2) 0%,rgba(8,21,30,0.85) 100%)}
+    .hero-content{position:relative;z-index:1;padding:0 80px 64px;width:100%}
+    .page-hero-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--coral-lt);margin-bottom:12px;display:block}
+    .page-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,90px);font-weight:300;color:#fff;line-height:0.95;letter-spacing:-1px;margin-bottom:16px}
+    .page-hero h1 em{font-style:italic;color:var(--coral-lt)}
+    .hero-sub{font-size:17px;color:rgba(255,255,255,0.65);font-weight:300;max-width:500px}
+
+    /* FILTER */
+    .filter-bar{background:var(--navy);padding:0 80px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:8px;overflow-x:auto}
+    .filter-btn{font-family:'DM Sans',sans-serif;font-size:13px;padding:18px 20px;background:none;border:none;color:rgba(255,255,255,0.4);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:color 0.2s,border-color 0.2s}
+    .filter-btn:hover{color:rgba(255,255,255,0.8)}
+    .filter-btn.active{color:var(--coral-lt);border-bottom-color:var(--coral-lt)}
+
+    /* SECTION LABELS */
+    .section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--coral);margin-bottom:12px;display:block}
+    .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,54px);font-weight:300;color:#fff;line-height:1.1}
+    .section-title em{font-style:italic;color:var(--coral-lt)}
+
+    /* FEATURED HOTEL */
+    .featured{padding:80px;background:var(--night)}
+    .featured-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:24px}
+    .featured-img{height:500px;border-radius:24px;overflow:hidden;position:relative;background:url('https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=1000&q=85&fit=crop') center/cover;transition:transform 0.5s}
+    .featured-img:hover{transform:scale(1.02)}
+    .feat-badge{position:absolute;top:20px;left:20px;background:rgba(8,21,30,0.8);backdrop-filter:blur(8px);border:1px solid rgba(231,111,81,0.3);border-radius:50px;padding:7px 16px;font-size:12px;color:var(--coral-lt)}
+    .feat-member-badge{position:absolute;top:20px;right:20px;background:var(--coral);border-radius:50px;padding:7px 16px;font-size:11px;font-weight:500;color:#fff}
+    .feat-eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--coral-lt);margin-bottom:12px}
+    .feat-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,5vw,58px);font-weight:300;color:#fff;line-height:1;margin-bottom:14px}
+    .feat-title em{font-style:italic;color:var(--coral-lt)}
+    .feat-desc{font-size:15px;color:rgba(255,255,255,0.55);line-height:1.8;margin-bottom:24px;font-weight:300}
+    .feat-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+    .feat-tag{font-size:12px;color:rgba(255,255,255,0.55);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:50px;padding:5px 14px}
+    .feat-deal{background:rgba(231,111,81,0.1);border:1px solid rgba(231,111,81,0.25);border-radius:14px;padding:16px 20px;margin-bottom:28px}
+    .feat-deal-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--coral-lt);margin-bottom:4px}
+    .feat-deal-text{font-size:14px;color:rgba(255,255,255,0.7)}
+    .feat-link{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--coral-lt);text-decoration:none;border-bottom:1px solid rgba(244,164,138,0.4);padding-bottom:3px;transition:gap 0.2s,border-color 0.2s}
+    .feat-link:hover{gap:16px;border-color:var(--coral-lt)}
+
+    /* HOTELS GRID */
+    .hotels-section{padding:0 80px 80px;background:var(--night)}
+    .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .property-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:20px;overflow:hidden;transition:transform 0.3s,border-color 0.3s;cursor:pointer}
+    .property-card:hover{transform:translateY(-5px);border-color:rgba(231,111,81,0.2)}
+    .prop-img{height:220px;background-size:cover;background-position:center;position:relative;transition:transform 0.5s}
+    .property-card:hover .prop-img{transform:scale(1.04)}
+    .prop-img-wrap{overflow:hidden}
+    .prop-member-tag{position:absolute;top:12px;right:12px;background:var(--coral);border-radius:20px;padding:4px 12px;font-size:10px;font-weight:500;color:#fff}
+    .prop-body{padding:20px}
+    .prop-city{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--coral-lt);margin-bottom:6px}
+    .prop-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#fff;margin-bottom:6px}
+    .prop-desc{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.5;margin-bottom:14px}
+    .prop-footer{display:flex;align-items:center;justify-content:space-between}
+    .prop-deal{font-size:12px;color:var(--coral-lt)}
+    .prop-arrow{font-size:13px;color:rgba(255,255,255,0.3);transition:color 0.2s}
+    .property-card:hover .prop-arrow{color:var(--coral-lt)}
+    /* Hotel photos */
+    .hi-1{background:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80&fit=crop') center/cover}
+    .hi-2{background:url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80&fit=crop') center/cover}
+    .hi-3{background:url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&q=80&fit=crop') center/cover}
+    .hi-4{background:url('https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&q=80&fit=crop') center/cover}
+    .hi-5{background:url('https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=600&q=80&fit=crop') center/cover}
+    .hi-6{background:url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=600&q=80&fit=crop') center/cover}
+
+    /* RESTAURANTS */
+    .restaurants{padding:80px;background:var(--navy)}
+    .rest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
+    .rest-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:20px;overflow:hidden;transition:transform 0.3s,border-color 0.3s;cursor:pointer}
+    .rest-card:hover{transform:translateY(-5px);border-color:rgba(231,111,81,0.2)}
+    .rest-img{height:200px;background-size:cover;background-position:center;transition:transform 0.5s;position:relative}
+    .rest-card:hover .rest-img{transform:scale(1.04)}
+    .rest-cuisine{position:absolute;bottom:12px;left:12px;background:rgba(8,21,30,0.85);backdrop-filter:blur(6px);border-radius:20px;padding:4px 12px;font-size:11px;color:rgba(255,255,255,0.7)}
+    .rest-body{padding:18px}
+    .rest-city{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--coral-lt);margin-bottom:5px}
+    .rest-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#fff;margin-bottom:6px}
+    .rest-desc{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.5;margin-bottom:12px}
+    .rest-footer{display:flex;align-items:center;justify-content:space-between}
+    .rest-deal{font-size:12px;color:var(--coral-lt)}
+    .rest-price{font-size:12px;color:rgba(255,255,255,0.3)}
+    /* Restaurant photos */
+    .ri-1{background:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80&fit=crop') center/cover}
+    .ri-2{background:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80&fit=crop') center/cover}
+    .ri-3{background:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80&fit=crop') center/cover}
+    .ri-4{background:url('https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=600&q=80&fit=crop') center/cover}
+    .ri-5{background:url('https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=600&q=80&fit=crop') center/cover}
+    .ri-6{background:url('https://images.unsplash.com/photo-1544148103-0773bf10d330?w=600&q=80&fit=crop') center/cover}
+
+    /* MEMBER DEALS BANNER */
+    .deals-banner{padding:60px 80px;background:linear-gradient(135deg,#1A0A05 0%,#2A1008 100%);border-top:1px solid rgba(231,111,81,0.1);border-bottom:1px solid rgba(231,111,81,0.1)}
+    .deals-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1100px;margin:0 auto}
+    .deals-title{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,50px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:14px}
+    .deals-title em{font-style:italic;color:var(--coral-lt)}
+    .deals-text{font-size:15px;color:rgba(255,255,255,0.5);line-height:1.8;font-weight:300}
+    .deals-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .deal-card{background:rgba(231,111,81,0.07);border:1px solid rgba(231,111,81,0.15);border-radius:16px;padding:20px;transition:background 0.2s}
+    .deal-card:hover{background:rgba(231,111,81,0.12)}
+    .deal-icon{font-size:24px;margin-bottom:10px}
+    .deal-name{font-size:14px;font-weight:500;color:#fff;margin-bottom:4px}
+    .deal-note{font-size:12px;color:rgba(255,255,255,0.4);line-height:1.4}
+
+    /* CTA */
+    .cta-section{padding:80px;background:var(--night)}
+    .cta-box{max-width:900px;margin:0 auto;background:linear-gradient(135deg,rgba(231,111,81,0.08) 0%,rgba(231,111,81,0.03) 100%);border:1px solid rgba(231,111,81,0.2);border-radius:28px;padding:72px 60px;text-align:center;position:relative;overflow:hidden}
+    .cta-box::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(231,111,81,0.07) 0%,transparent 70%);top:-200px;right:-150px;pointer-events:none}
+    .cta-box h2{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5vw,54px);font-weight:300;color:#fff;margin-bottom:16px;line-height:1.1}
+    .cta-box h2 em{font-style:italic;color:var(--coral-lt)}
+    .cta-box p{font-size:17px;color:rgba(255,255,255,0.5);margin-bottom:40px;font-weight:300;line-height:1.7}
+    .btn-coral{font-size:15px;font-weight:500;padding:16px 36px;border-radius:50px;background:var(--coral);color:#fff;text-decoration:none;box-shadow:0 0 28px rgba(231,111,81,0.35);transition:background 0.2s,transform 0.15s;display:inline-block;margin-right:14px}
+    .btn-coral:hover{background:var(--coral-lt);transform:translateY(-2px)}
+    .btn-ghost{font-size:15px;padding:15px 32px;border-radius:50px;background:transparent;color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.2);text-decoration:none;transition:all 0.2s;display:inline-block}
+    .btn-ghost:hover{border-color:var(--coral-lt);color:var(--coral-lt);transform:translateY(-2px)}
+
+    /* FOOTER */
+    footer{background:var(--night);padding:40px 60px 28px;border-top:1px solid rgba(255,255,255,0.05)}
+    .ft-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .ft-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#fff;text-decoration:none}
+    .ft-logo span{color:var(--gold);font-style:italic}
+    .ft-links-row{display:flex;gap:24px}
+    .ft-links-row a{font-size:12px;color:rgba(255,255,255,0.25);text-decoration:none;transition:color 0.2s}
+    .ft-links-row a:hover{color:var(--coral-lt)}
+    .ft-copy{font-size:12px;color:rgba(255,255,255,0.2)}
+    .ft-disclaimer{font-size:11px;color:rgba(255,255,255,0.18);line-height:1.6;margin-top:14px;font-style:italic}
+
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease}
+    .reveal.left{transform:translateX(-28px)}
+    .reveal.right{transform:translateX(28px)}
+    .reveal.visible{opacity:1;transform:translate(0)}
+    .d1{transition-delay:0.1s}.d2{transition-delay:0.2s}.d3{transition-delay:0.3s}.d4{transition-delay:0.4s}.d5{transition-delay:0.5s}.d6{transition-delay:0.6s}
+
+    @media(max-width:960px){
+      nav{padding:0 20px}
+      .nav-links{display:none}
+      .hero-content,.featured,.hotels-section,.restaurants,.deals-banner,.cta-section{padding:60px 24px}
+      .featured-inner,.deals-inner{grid-template-columns:1fr}
+      .featured-img{height:280px}
+      .card-grid,.rest-grid,.deals-cards{grid-template-columns:1fr 1fr}
+      .cta-box{padding:44px 24px}
+      footer{padding:36px 24px 24px}
+    }
+  </style>
+</head>
+<body>
+  <div id="cursorGlow"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Colombia <span>Trips</span></a>
+    <ul class="nav-links">
+      <li><a href="vacation.html">Destinations</a></li>
+      <li><a href="hotels.html" class="active">Hotels & Dining</a></li>
+      <li><a href="healthcare.html">Healthcare</a></li>
+      <li><a href="packages.html">Packages</a></li>
+      <li><a href="support.html">Support</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="nav-login">Log In</a>
+      <a href="packages.html" class="nav-btn">Get Started</a>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="hero-content">
+      <span class="page-hero-label">Hotels & Dining</span>
+      <h1>Stay well.<br><em>Eat better.</em></h1>
+      <p class="hero-sub">Our personally vetted hotels and restaurants across Colombia — with exclusive member deals you won't find anywhere else.</p>
+    </div>
+  </section>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+    <button class="filter-btn" onclick="setFilter('hotel',this)">🏨 Hotels</button>
+    <button class="filter-btn" onclick="setFilter('restaurant',this)">🍽 Restaurants</button>
+    <button class="filter-btn" onclick="setFilter('san-andres',this)">🏝 San Andrés</button>
+    <button class="filter-btn" onclick="setFilter('medellin',this)">🌆 Medellín</button>
+    <button class="filter-btn" onclick="setFilter('cartagena',this)">🏛 Cartagena</button>
+    <button class="filter-btn" onclick="setFilter('bogota',this)">🏙 Bogotá</button>
+  </div>
+
+  <!-- FEATURED HOTEL -->
+  <section class="featured" id="hotels">
+    <span class="section-label reveal">Featured Property</span>
+    <div class="featured-inner">
+      <div class="featured-img reveal left">
+        <div class="feat-badge">🏨 Boutique Hotel</div>
+        <div class="feat-member-badge">Member Deal</div>
+      </div>
+      <div class="reveal right">
+        <div class="feat-eyebrow">Coming Soon — Medellín</div>
+        <h2 class="feat-title">Our top hotel<br><em>pick in Medellín</em></h2>
+        <p class="feat-desc">Chris has personally stayed at and vetted the best properties across Colombia. Our featured hotel recommendations are real experiences — not paid placements. This spot will be updated with Chris's #1 pick once we launch.</p>
+        <div class="feat-tags">
+          <span class="feat-tag">🌆 City Views</span>
+          <span class="feat-tag">🏊 Pool</span>
+          <span class="feat-tag">🍳 Breakfast Included</span>
+          <span class="feat-tag">📍 El Poblado</span>
+        </div>
+        <div class="feat-deal">
+          <div class="feat-deal-label">Member Exclusive Deal</div>
+          <div class="feat-deal-text">Adventure & Elite members unlock exclusive rates — not available to the general public</div>
+        </div>
+        <a href="packages.html" class="feat-link">Unlock member deals →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOTELS GRID -->
+  <section class="hotels-section">
+    <h2 class="section-title reveal" style="margin-bottom:36px">Vetted <em>hotels</em> across Colombia</h2>
+    <div class="card-grid">
+      <div class="property-card reveal d1" data-type="hotel san-andres">
+        <div class="prop-img-wrap"><div class="prop-img hi-1"><div class="prop-member-tag">Member Deal</div></div></div>
+        <div class="prop-body">
+          <div class="prop-city">San Andrés</div>
+          <div class="prop-name">Chris's Pick — Coming Soon</div>
+          <div class="prop-desc">Our top San Andrés hotel recommendation — vetted personally by Chris. Member exclusive rates available.</div>
+          <div class="prop-footer"><span class="prop-deal">✦ Member rate available</span><span class="prop-arrow">→</span></div>
+        </div>
+      </div>
+      <div class="property-card reveal d2" data-type="hotel medellin">
+        <div class="prop-img-wrap"><div class="prop-img hi-2"><div class="prop-member-tag">Member Deal</div></div></div>
+        <div class="prop-body">
+          <div class="prop-city">Medellín</div>
+          <div class="prop-name">Chris's Pick — Coming Soon</div>
+          <div class="prop-desc">The best stay in El Poblado — rooftop pool, incredible views, and a team that takes care of Colombia Trips members.</div>
+          <div class="prop-footer"><span class="prop-deal">✦ Member rate available</span><span class="prop-arrow">→</span></div>
+        </div>
+      </div>
+      <div class="property-card reveal d3" data-type="hotel cartagena">
+        <div class="prop-img-wrap"><div class="prop-img hi-3"><div class="prop-member-tag">Member Deal</div></div></div>
+        <div class="prop-body">
+          <div class="prop-city">Cartagena</div>
+          <div class="prop-name">Chris's Pick — Coming Soon</div>
+          <div class="prop-desc">Boutique hotel inside the walled city — colonial architecture, rooftop bar, steps from everything.</div>
+          <div class="prop-footer"><span class="prop-deal">✦ Member rate available</span><span class="prop-arrow">→</span></div>
+        </div>
+      </div>
+      <div class="property-card reveal d4" data-type="hotel bogota">
+        <div class="prop-img-wrap"><div class="prop-img hi-4"><div class="prop-member-tag">Member Deal</div></div></div>
+        <div class="prop-body">
+          <div class="prop-city">Bogotá</div>
+          <div class="prop-name">Chris's Pick — Coming Soon</div>
+          <div class="prop-desc">Modern comfort in the heart of Bogotá — close to La Candelaria and the best restaurants in the capital.</div>
+          <div class="prop-footer"><span class="prop-deal">✦ Member rate available</span><span class="prop-arrow">→</span></div>
+        </div>
+      </div>
+      <div class="property-card reveal d5" data-type="hotel san-andres">
+        <div class="prop-img-wrap"><div class="prop-img hi-5"></div></div>
+        <div class="prop-body">
+          <div class="prop-city">San Andrés</div>
+          <div class="prop-name">More Coming Soon</div>
+          <div class="prop-desc">Additional San Andrés properties being added as Chris finalizes his top picks and negotiates member rates.</div>
+          <div class="prop-footer"><span class="prop-deal">✦ More properties coming</span><span class="prop-arrow">→</span></div>
+        </div>
+      </div>
+      <div class="property-card reveal d6" data-type="hotel medellin">
+        <div class="prop-img-wrap"><div class="prop-img hi-6"></div></div>
+        <div class="prop-body">
+          <div class="prop-city">Medellín</div>
+          <div class="prop-name">More Coming Soon</div>
+          <div class="prop-desc">Our Medellín hotel list keeps growing with every trip Chris makes to the City of Eternal Spring.</div>
+          <div class="prop-footer"><span class="prop-deal">✦ More properties coming</span><span class="prop-arrow">→</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESTAURANTS -->
+  <section class="restaurants" id="restaurants">
+    <span class="section-label reveal">Dining</span>
+    <h2 class="section-title reveal">Local <em>favorites</em> — vetted by Chris</h2>
+    <div class="rest-grid">
+      <div class="rest-card reveal d1" data-type="restaurant cartagena">
+        <div class="rest-img ri-1"><div class="rest-cuisine">Colombian · Seafood</div></div>
+        <div class="rest-body">
+          <div class="rest-city">Cartagena</div>
+          <div class="rest-name">Chris's Pick — Coming Soon</div>
+          <div class="rest-desc">The best seafood in Cartagena's old city — a local institution that treats Colombia Trips members like family.</div>
+          <div class="rest-footer"><span class="rest-deal">✦ Member reservation priority</span><span class="rest-price">$$</span></div>
+        </div>
+      </div>
+      <div class="rest-card reveal d2" data-type="restaurant medellin">
+        <div class="rest-img ri-2"><div class="rest-cuisine">Modern Colombian</div></div>
+        <div class="rest-body">
+          <div class="rest-city">Medellín</div>
+          <div class="rest-name">Chris's Pick — Coming Soon</div>
+          <div class="rest-desc">Modern Colombian cuisine in El Poblado — the kind of dinner that makes you understand why Medellín's food scene is world-class.</div>
+          <div class="rest-footer"><span class="rest-deal">✦ Member reservation priority</span><span class="rest-price">$$$</span></div>
+        </div>
+      </div>
+      <div class="rest-card reveal d3" data-type="restaurant san-andres">
+        <div class="rest-img ri-3"><div class="rest-cuisine">Caribbean · Fresh Catch</div></div>
+        <div class="rest-body">
+          <div class="rest-city">San Andrés</div>
+          <div class="rest-name">Chris's Pick — Coming Soon</div>
+          <div class="rest-desc">Fresh-caught fish steps from the water — the kind of place tourists never find but locals eat at every week.</div>
+          <div class="rest-footer"><span class="rest-deal">✦ Hidden gem</span><span class="rest-price">$</span></div>
+        </div>
+      </div>
+      <div class="rest-card reveal d4" data-type="restaurant bogota">
+        <div class="rest-img ri-4"><div class="rest-cuisine">Fine Dining</div></div>
+        <div class="rest-body">
+          <div class="rest-city">Bogotá</div>
+          <div class="rest-name">Chris's Pick — Coming Soon</div>
+          <div class="rest-desc">One of Bogotá's finest tables — a must-visit for any Colombia Trips member spending time in the capital.</div>
+          <div class="rest-footer"><span class="rest-deal">✦ Member reservation priority</span><span class="rest-price">$$$$</span></div>
+        </div>
+      </div>
+      <div class="rest-card reveal d5" data-type="restaurant medellin">
+        <div class="rest-img ri-5"><div class="rest-cuisine">Street Food · Local</div></div>
+        <div class="rest-body">
+          <div class="rest-city">Medellín</div>
+          <div class="rest-name">Local Spot — Coming Soon</div>
+          <div class="rest-desc">A neighborhood spot Chris goes to every time he's in Medellín. No tourists, no frills — just incredible food.</div>
+          <div class="rest-footer"><span class="rest-deal">✦ Locals only</span><span class="rest-price">$</span></div>
+        </div>
+      </div>
+      <div class="rest-card reveal d6" data-type="restaurant cartagena">
+        <div class="rest-img ri-6"><div class="rest-cuisine">Rooftop · Cocktails</div></div>
+        <div class="rest-body">
+          <div class="rest-city">Cartagena</div>
+          <div class="rest-name">Rooftop Bar — Coming Soon</div>
+          <div class="rest-desc">The best sunset view in Cartagena — rooftop drinks with the walled city spread out below you.</div>
+          <div class="rest-footer"><span class="rest-deal">✦ Member table priority</span><span class="rest-price">$$$</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEMBER DEALS BANNER -->
+  <div class="deals-banner">
+    <div class="deals-inner">
+      <div class="reveal left">
+        <span class="section-label">Why It Matters</span>
+        <h2 class="deals-title">These aren't just<br><em>recommendations</em></h2>
+        <p class="deals-text">Anyone can make a list of hotels and restaurants from TripAdvisor. What makes Colombia Trips Co. different is that these are Chris's personal relationships — people who know him, trust him, and take care of our members because of that connection.</p>
+      </div>
+      <div class="deals-cards reveal right">
+        <div class="deal-card">
+          <div class="deal-icon">🤝</div>
+          <div class="deal-name">Real Relationships</div>
+          <div class="deal-note">Every property and restaurant knows us personally</div>
+        </div>
+        <div class="deal-card">
+          <div class="deal-icon">💰</div>
+          <div class="deal-name">Exclusive Rates</div>
+          <div class="deal-note">Member deals not available to the general public</div>
+        </div>
+        <div class="deal-card">
+          <div class="deal-icon">🎯</div>
+          <div class="deal-name">Vetted Only</div>
+          <div class="deal-note">If Chris wouldn't stay or eat there himself, it's not on our list</div>
+        </div>
+        <div class="deal-card">
+          <div class="deal-icon">📞</div>
+          <div class="deal-name">Priority Access</div>
+          <div class="deal-note">Adventure & Elite members get reservation priority</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-box reveal">
+      <h2>Unlock every hotel<br><em>& restaurant deal</em></h2>
+      <p>Adventure and Elite Concierge members get exclusive access to member rates, priority reservations, and deals that regular tourists simply can't get.</p>
+      <a href="packages.html" class="btn-coral">View Packages →</a>
+      <a href="support.html" class="btn-ghost">Talk to Us First</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="ft-bottom">
+      <a href="index.html" class="ft-logo">Colombia <span>Trips</span></a>
+      <div class="ft-links-row">
+        <a href="vacation.html">Destinations</a>
+        <a href="healthcare.html">Healthcare</a>
+        <a href="packages.html">Packages</a>
+        <a href="support.html">Support</a>
+        <a href="about.html">About Us</a>
+      </div>
+      <span class="ft-copy">© 2025 Colombia Trips Co. LLC</span>
+    </div>
+    <p class="ft-disclaimer">Hotel and restaurant listings are based on personal recommendations. Colombia Trips Co. does not guarantee availability, pricing, or quality of any third-party property or restaurant. Member deals vary. colombiatrips.com</p>
+  </footer>
+
+  <script>
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', e => { glow.style.left=e.clientX+'px'; glow.style.top=e.clientY+'px'; });
+    const revEls = document.querySelectorAll('.reveal');
+    new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:0.1}).observe && document.querySelectorAll('.reveal').forEach(el => new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:0.1}).observe(el));
+    function setFilter(type, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      [...document.querySelectorAll('.property-card, .rest-card')].forEach(card => {
+        const t = card.getAttribute('data-type') || '';
+        card.style.display = (type === 'all' || t.includes(type)) ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

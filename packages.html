@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Colombia Trips Co. — Offline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'DM Sans',sans-serif;
+      background:#08151E;
+      color:#fff;
+      min-height:100vh;
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+      text-align:center;padding:40px 24px;
+    }
+    .logo{
+      font-family:'Cormorant Garamond',serif;
+      font-size:32px;font-weight:600;color:#fff;
+      margin-bottom:48px;
+    }
+    .logo span{color:#5EC4E8;font-style:italic}
+    .icon{font-size:64px;margin-bottom:24px;opacity:0.6}
+    h1{
+      font-family:'Cormorant Garamond',serif;
+      font-size:36px;font-weight:300;
+      margin-bottom:16px;line-height:1.2;
+    }
+    h1 em{font-style:italic;color:#5EC4E8}
+    p{
+      font-size:16px;color:rgba(255,255,255,0.6);
+      line-height:1.7;max-width:400px;margin-bottom:36px;
+    }
+    .btn{
+      display:inline-block;
+      font-size:14px;font-weight:500;
+      padding:14px 32px;border-radius:50px;
+      background:#0B7EA8;color:#fff;
+      text-decoration:none;border:none;cursor:pointer;
+      transition:background 0.2s,transform 0.15s;
+      box-shadow:0 0 24px rgba(11,126,168,0.4);
+    }
+    .btn:hover{background:#5EC4E8;transform:translateY(-2px)}
+    .support{
+      margin-top:48px;
+      font-size:13px;color:rgba(255,255,255,0.3);
+    }
+    .support a{color:#5EC4E8;text-decoration:none}
+
+    /* Animated wave */
+    .wave{
+      position:fixed;bottom:0;left:0;right:0;
+      height:120px;overflow:hidden;
+    }
+    .wave svg{
+      position:absolute;bottom:0;
+      width:200%;animation:wave 8s linear infinite;
+    }
+    @keyframes wave{
+      0%{transform:translateX(0)}
+      100%{transform:translateX(-50%)}
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">Colombia <span>Trips</span></div>
+  <div class="icon">🌊</div>
+  <h1>You're <em>offline</em> right now</h1>
+  <p>Looks like you've lost your connection. Don't worry — check your internet and try again. The pages you've already visited are still available.</p>
+  <button class="btn" onclick="window.location.reload()">Try Again</button>
+  <div class="support">
+    Need help? Call our 24/7 support line or visit
+    <a href="support.html">our support page</a> when you're back online.
+  </div>
+
+  <div class="wave">
+    <svg viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,120 L0,120 Z" fill="rgba(11,126,168,0.08)"/>
+      <path d="M0,80 C240,40 480,110 720,80 C960,40 1200,110 1440,80 L1440,120 L0,120 Z" fill="rgba(11,126,168,0.05)"/>
+    </svg>
+  </div>
+</body>
+</html>

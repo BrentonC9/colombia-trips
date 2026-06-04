@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Healthcare Network — Colombia Trips Co.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --green:    #4CAF7D;
+      --green-dk: #2D8A5A;
+      --green-lt: #7ED4A0;
+      --night:    #08151E;
+      --navy:     #0D1F2D;
+      --ocean:    #0B7EA8;
+      --ocean-lt: #5EC4E8;
+      --gold:     #D4A843;
+      --sand:     #F5EFE0;
+      --cream:    #FDFAF4;
+      --text:     #0D1A22;
+      --text-mid: #4A6070;
+      --white:    #FFFFFF;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--night);color:var(--white);overflow-x:hidden}
+
+    /* ── CURSOR GLOW ── */
+    #cursorGlow{
+      position:fixed;width:320px;height:320px;
+      background:radial-gradient(circle,rgba(76,175,125,0.07) 0%,transparent 70%);
+      border-radius:50%;pointer-events:none;z-index:9998;
+      transform:translate(-50%,-50%);transition:left 0.08s,top 0.08s;
+    }
+
+    /* ── NAV ── */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      padding:0 48px;height:72px;
+      display:flex;align-items:center;justify-content:space-between;
+      background:rgba(8,21,30,0.92);backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(76,175,125,0.1);
+    }
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:#fff;text-decoration:none}
+    .nav-logo span{color:var(--gold);font-style:italic}
+    .nav-links{display:flex;gap:32px;list-style:none}
+    .nav-links a{font-size:13px;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s}
+    .nav-links a:hover,.nav-links a.active{color:var(--green)}
+    .nav-actions{display:flex;align-items:center;gap:10px}
+    .nav-login{font-size:13px;padding:9px 22px;border-radius:50px;background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .nav-login:hover{border-color:var(--green);color:var(--green)}
+    .nav-btn{font-size:13px;font-weight:500;padding:10px 24px;border-radius:50px;background:var(--green);border:none;color:#fff;cursor:pointer;text-decoration:none;transition:background 0.2s,transform 0.15s}
+    .nav-btn:hover{background:var(--green-lt);transform:translateY(-1px)}
+
+    /* ── PAGE HERO ── */
+    .page-hero{
+      padding:140px 80px 90px;
+      background:linear-gradient(160deg,var(--night) 0%,#0A1F14 60%,var(--night) 100%);
+      position:relative;overflow:hidden;
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:80px;align-items:center;
+      max-width:100%;
+    }
+    .page-hero::before{
+      content:'';position:absolute;
+      width:700px;height:700px;border-radius:50%;
+      background:radial-gradient(circle,rgba(76,175,125,0.06) 0%,transparent 70%);
+      top:-200px;right:-150px;pointer-events:none;
+    }
+    .hero-left{position:relative;z-index:1}
+    .page-hero-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:16px;display:block}
+    .page-hero h1{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(44px,6vw,80px);
+      font-weight:300;color:#fff;
+      line-height:1.05;letter-spacing:-1px;margin-bottom:20px;
+    }
+    .page-hero h1 em{font-style:italic;color:var(--green)}
+    .page-hero p{font-size:17px;color:rgba(255,255,255,0.6);line-height:1.75;max-width:480px;margin-bottom:36px;font-weight:300}
+    .hero-badge-row{display:flex;gap:12px;flex-wrap:wrap}
+    .hero-badge{
+      display:inline-flex;align-items:center;gap:7px;
+      background:rgba(76,175,125,0.1);
+      border:1px solid rgba(76,175,125,0.25);
+      border-radius:50px;padding:7px 16px;
+      font-size:12px;color:var(--green);
+    }
+    .hero-right{
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:14px;position:relative;z-index:1;
+    }
+    .hero-stat-card{
+      background:rgba(76,175,125,0.07);
+      border:1px solid rgba(76,175,125,0.15);
+      border-radius:18px;padding:24px;
+      transition:transform 0.3s,background 0.3s;
+    }
+    .hero-stat-card:hover{transform:translateY(-4px);background:rgba(76,175,125,0.12)}
+    .hero-stat-card:first-child{grid-column:span 2}
+    .stat-num{
+      font-family:'Cormorant Garamond',serif;
+      font-size:48px;font-weight:300;color:var(--green);
+      line-height:1;margin-bottom:6px;
+    }
+    .stat-label{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.4}
+    .stat-note{font-size:11px;color:rgba(255,255,255,0.25);margin-top:4px;font-style:italic}
+
+    /* ── WHY COLOMBIA HEALTHCARE ── */
+    .why-section{
+      padding:90px 80px;
+      background:var(--navy);
+    }
+    .why-header{margin-bottom:56px}
+    .section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:12px}
+    .section-title{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(36px,5vw,56px);
+      font-weight:300;color:#fff;line-height:1.1;
+    }
+    .section-title em{font-style:italic;color:var(--green)}
+    .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .why-card{
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:20px;padding:32px;
+      position:relative;overflow:hidden;
+      transition:transform 0.3s,border-color 0.3s;
+    }
+    .why-card:hover{transform:translateY(-4px);border-color:rgba(76,175,125,0.25)}
+    .why-card::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:var(--green);transform:scaleX(0);transform-origin:left;
+      transition:transform 0.4s;
+    }
+    .why-card:hover::before{transform:scaleX(1)}
+    .why-icon{font-size:32px;margin-bottom:16px}
+    .why-card h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#fff;margin-bottom:10px}
+    .why-card p{font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7}
+    .why-card .savings{
+      display:inline-block;margin-top:12px;
+      font-size:12px;color:var(--green);
+      background:rgba(76,175,125,0.1);
+      border-radius:20px;padding:4px 12px;
+    }
+
+    /* ── NETWORK CATEGORIES ── */
+    .network-section{padding:90px 80px;background:var(--night)}
+    .network-header{text-align:center;margin-bottom:64px}
+    .network-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      gap:2px;border-radius:24px;overflow:hidden;
+      max-width:1100px;margin:0 auto;
+    }
+    .network-card{
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.05);
+      padding:40px 32px;
+      transition:background 0.3s;cursor:pointer;
+      position:relative;overflow:hidden;
+    }
+    .network-card::after{
+      content:'';position:absolute;
+      bottom:0;left:0;right:0;height:2px;
+      background:var(--green);
+      transform:scaleX(0);transform-origin:left;
+      transition:transform 0.4s;
+    }
+    .network-card:hover{background:rgba(76,175,125,0.06)}
+    .network-card:hover::after{transform:scaleX(1)}
+    .nc-icon{font-size:36px;margin-bottom:16px}
+    .nc-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:#fff;margin-bottom:8px}
+    .nc-desc{font-size:14px;color:rgba(255,255,255,0.45);line-height:1.65;margin-bottom:16px}
+    .nc-tag{
+      font-size:11px;letter-spacing:1px;
+      color:var(--green);
+      background:rgba(76,175,125,0.1);
+      border-radius:20px;padding:4px 12px;
+      display:inline-block;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-section{
+      padding:90px 80px;
+      background:linear-gradient(135deg,#0A1F14 0%,var(--navy) 100%);
+    }
+    .how-header{text-align:center;margin-bottom:64px}
+    .how-steps{
+      display:grid;grid-template-columns:repeat(4,1fr);
+      gap:0;max-width:1100px;margin:0 auto;
+      position:relative;
+    }
+    .how-steps::before{
+      content:'';position:absolute;
+      top:36px;left:10%;right:10%;height:1px;
+      background:linear-gradient(to right,transparent,rgba(76,175,125,0.3),rgba(76,175,125,0.3),transparent);
+    }
+    .how-step{text-align:center;padding:0 20px;position:relative}
+    .step-num{
+      width:72px;height:72px;border-radius:50%;
+      background:rgba(76,175,125,0.1);
+      border:1px solid rgba(76,175,125,0.3);
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Cormorant Garamond',serif;
+      font-size:28px;font-weight:300;color:var(--green);
+      margin:0 auto 20px;position:relative;z-index:1;
+      transition:background 0.3s,border-color 0.3s;
+    }
+    .how-step:hover .step-num{background:rgba(76,175,125,0.2);border-color:var(--green)}
+    .step-title{font-size:16px;font-weight:500;color:#fff;margin-bottom:10px}
+    .step-desc{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6}
+
+    /* ── DISCLAIMER BANNER ── */
+    .disclaimer-banner{
+      padding:48px 80px;
+      background:rgba(76,175,125,0.05);
+      border-top:1px solid rgba(76,175,125,0.1);
+      border-bottom:1px solid rgba(76,175,125,0.1);
+    }
+    .disclaimer-inner{
+      max-width:900px;margin:0 auto;
+      display:flex;gap:24px;align-items:flex-start;
+    }
+    .disclaimer-icon{font-size:28px;flex-shrink:0;margin-top:2px}
+    .disclaimer-text h4{font-size:15px;font-weight:500;color:#fff;margin-bottom:8px}
+    .disclaimer-text p{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.7}
+
+    /* ── ELITE CTA ── */
+    .elite-cta{padding:90px 80px;background:var(--night)}
+    .elite-box{
+      max-width:960px;margin:0 auto;
+      background:linear-gradient(135deg,rgba(76,175,125,0.08) 0%,rgba(76,175,125,0.03) 100%);
+      border:1px solid rgba(76,175,125,0.2);
+      border-radius:28px;padding:72px 60px;
+      text-align:center;position:relative;overflow:hidden;
+    }
+    .elite-box::before{
+      content:'';position:absolute;
+      width:500px;height:500px;border-radius:50%;
+      background:radial-gradient(circle,rgba(76,175,125,0.07) 0%,transparent 70%);
+      top:-200px;right:-150px;pointer-events:none;
+    }
+    .elite-box h2{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(34px,5vw,56px);
+      font-weight:300;color:#fff;
+      margin-bottom:16px;line-height:1.1;
+    }
+    .elite-box h2 em{font-style:italic;color:var(--green)}
+    .elite-box p{font-size:17px;color:rgba(255,255,255,0.5);margin-bottom:40px;font-weight:300;line-height:1.7;max-width:580px;margin-left:auto;margin-right:auto}
+    .btn-green{
+      font-size:15px;font-weight:500;padding:16px 36px;border-radius:50px;
+      background:var(--green);color:#fff;text-decoration:none;
+      box-shadow:0 0 32px rgba(76,175,125,0.35);
+      transition:background 0.2s,transform 0.15s,box-shadow 0.2s;
+      display:inline-block;margin-right:14px;
+    }
+    .btn-green:hover{background:var(--green-lt);transform:translateY(-2px);box-shadow:0 0 48px rgba(76,175,125,0.5)}
+    .btn-ghost-green{
+      font-size:15px;padding:15px 32px;border-radius:50px;
+      background:transparent;color:rgba(255,255,255,0.65);
+      border:1px solid rgba(255,255,255,0.2);text-decoration:none;
+      transition:border-color 0.2s,color 0.2s,transform 0.15s;
+      display:inline-block;
+    }
+    .btn-ghost-green:hover{border-color:var(--green);color:var(--green);transform:translateY(-2px)}
+
+    /* ── FOOTER ── */
+    footer{background:var(--night);padding:40px 60px 28px;border-top:1px solid rgba(255,255,255,0.05)}
+    .ft-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .ft-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#fff;text-decoration:none}
+    .ft-logo span{color:var(--gold);font-style:italic}
+    .ft-links-row{display:flex;gap:24px}
+    .ft-links-row a{font-size:12px;color:rgba(255,255,255,0.25);text-decoration:none;transition:color 0.2s}
+    .ft-links-row a:hover{color:var(--green)}
+    .ft-copy{font-size:12px;color:rgba(255,255,255,0.2)}
+    .ft-disclaimer{font-size:11px;color:rgba(255,255,255,0.18);line-height:1.6;margin-top:14px;font-style:italic}
+
+    /* ── REVEAL ── */
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease}
+    .reveal.left{transform:translateX(-28px)}
+    .reveal.right{transform:translateX(28px)}
+    .reveal.visible{opacity:1;transform:translate(0)}
+    .d1{transition-delay:0.1s}.d2{transition-delay:0.2s}.d3{transition-delay:0.3s}.d4{transition-delay:0.4s}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:960px){
+      nav{padding:0 20px}
+      .nav-links{display:none}
+      .page-hero{padding:120px 24px 60px;grid-template-columns:1fr}
+      .hero-right{display:none}
+      .why-section,.network-section,.how-section,.elite-cta,.disclaimer-banner{padding:60px 24px}
+      .why-grid,.network-grid{grid-template-columns:1fr}
+      .how-steps{grid-template-columns:1fr 1fr;gap:32px}
+      .how-steps::before{display:none}
+      .elite-box{padding:44px 24px}
+      footer{padding:36px 24px 24px}
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursorGlow"></div>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <a href="index.html" class="nav-logo">Colombia <span>Trips</span></a>
+    <ul class="nav-links">
+      <li><a href="vacation.html">Destinations</a></li>
+      <li><a href="hotels.html">Hotels & Dining</a></li>
+      <li><a href="healthcare.html" class="active">Healthcare</a></li>
+      <li><a href="packages.html">Packages</a></li>
+      <li><a href="support.html">Support</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="nav-login">Log In</a>
+      <a href="packages.html" class="nav-btn">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="page-hero">
+    <div class="hero-left">
+      <span class="page-hero-label">Healthcare Network</span>
+      <h1>World-class care.<br><em>Colombian prices.</em></h1>
+      <p>Our personally vetted network of doctors, clinics, dentists, specialists, and hospitals across Colombia — with exclusive member discounts and real local relationships that most travelers never get access to.</p>
+      <div class="hero-badge-row">
+        <div class="hero-badge">✦ Vetted providers only</div>
+        <div class="hero-badge">✦ Real personal relationships</div>
+        <div class="hero-badge">✦ Elite member discounts</div>
+      </div>
+    </div>
+    <div class="hero-right reveal right">
+      <div class="hero-stat-card">
+        <div class="stat-num">50–70%</div>
+        <div class="stat-label">Lower cost than comparable US procedures</div>
+        <div class="stat-note">Varies by procedure and provider</div>
+      </div>
+      <div class="hero-stat-card">
+        <div class="stat-num">✦</div>
+        <div class="stat-label">Personally vetted by our team</div>
+        <div class="stat-note">Every provider in our network is known to us directly</div>
+      </div>
+      <div class="hero-stat-card">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">Support while you receive care in Colombia</div>
+        <div class="stat-note">Elite Concierge members get direct coordination support</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WHY COLOMBIA ── -->
+  <section class="why-section">
+    <div class="why-header reveal">
+      <div class="section-label">Why Colombia</div>
+      <h2 class="section-title">Healthcare that <em>surprises Americans</em></h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal d1">
+        <div class="why-icon">🏥</div>
+        <h3>World-Class Quality</h3>
+        <p>Colombia has invested heavily in its healthcare infrastructure. Many of its top hospitals and clinics hold international accreditations and attract patients from across Latin America and the US.</p>
+      </div>
+      <div class="why-card reveal d2">
+        <div class="why-icon">💰</div>
+        <h3>Fraction of US Costs</h3>
+        <p>Dental work, cosmetic procedures, orthopedic surgery, and more — at costs that are often 50 to 70 percent lower than what you'd pay in the United States for comparable quality.</p>
+        <span class="savings">Major savings on most procedures</span>
+      </div>
+      <div class="why-card reveal d3">
+        <div class="why-icon">🤝</div>
+        <h3>Our Network Knows Us</h3>
+        <p>We're not just listing providers from Google. Every doctor, clinic, and hospital in our network is a real relationship — people who know us personally and treat our members accordingly.</p>
+      </div>
+      <div class="why-card reveal d1">
+        <div class="why-icon">🌍</div>
+        <h3>English-Speaking Options</h3>
+        <p>Many of our network providers have experience with international patients and English-speaking staff, making communication significantly easier for American travelers.</p>
+      </div>
+      <div class="why-card reveal d2">
+        <div class="why-icon">📋</div>
+        <h3>Plan Before You Go</h3>
+        <p>Elite Concierge members can coordinate appointments, consultations, and logistics before they even board their flight — so everything is ready when they land.</p>
+      </div>
+      <div class="why-card reveal d3">
+        <div class="why-icon">🛡️</div>
+        <h3>Peace of Mind</h3>
+        <p>Whether it's an unexpected illness during your vacation or a planned medical procedure, knowing you have a trusted network to call makes all the difference.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── NETWORK CATEGORIES ── -->
+  <section class="network-section">
+    <div class="network-header reveal">
+      <div class="section-label">Our Network</div>
+      <h2 class="section-title">Every kind of care — <em>covered</em></h2>
+    </div>
+    <div class="network-grid">
+      <div class="network-card reveal d1">
+        <div class="nc-icon">👨‍⚕️</div>
+        <div class="nc-name">General Care</div>
+        <div class="nc-desc">Vetted general practitioners and physicians for routine care, illness, or injury during your trip. Available across all major Colombian cities.</div>
+        <span class="nc-tag">Adventure & Elite</span>
+      </div>
+      <div class="network-card reveal d2">
+        <div class="nc-icon">🔬</div>
+        <div class="nc-name">Specialists</div>
+        <div class="nc-desc">Access to cardiologists, orthopedic surgeons, dermatologists, ophthalmologists, and more — across a wide range of specialties.</div>
+        <span class="nc-tag">Adventure & Elite</span>
+      </div>
+      <div class="network-card reveal d3">
+        <div class="nc-icon">🦷</div>
+        <div class="nc-name">Dental Care</div>
+        <div class="nc-desc">From routine cleanings to veneers, implants, and full restorations — quality dental work at a fraction of US prices.</div>
+        <span class="nc-tag">Adventure & Elite</span>
+      </div>
+      <div class="network-card reveal d1">
+        <div class="nc-icon">✨</div>
+        <div class="nc-name">Cosmetic & Elective</div>
+        <div class="nc-desc">Trusted providers for planned cosmetic procedures — rhinoplasty, liposuction, facelifts, and more. Colombia is one of Latin America's top destinations for cosmetic surgery.</div>
+        <span class="nc-tag">Elite Concierge</span>
+      </div>
+      <div class="network-card reveal d2">
+        <div class="nc-icon">🏥</div>
+        <div class="nc-name">Hospitals & Clinics</div>
+        <div class="nc-desc">Internationally recognized hospitals and modern clinics with experience treating international patients — in Medellín, Bogotá, Cartagena, and beyond.</div>
+        <span class="nc-tag">Adventure & Elite</span>
+      </div>
+      <div class="network-card reveal d3">
+        <div class="nc-icon">💊</div>
+        <div class="nc-name">Pharmacy & Insurance</div>
+        <div class="nc-desc">Guidance on Colombian pharmacies, prescription medications, and how to navigate healthcare insurance as an American traveler.</div>
+        <span class="nc-tag">All Members</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS ── -->
+  <section class="how-section">
+    <div class="how-header reveal">
+      <div class="section-label">The Process</div>
+      <h2 class="section-title">How it <em>works</em></h2>
+    </div>
+    <div class="how-steps">
+      <div class="how-step reveal d1">
+        <div class="step-num">1</div>
+        <div class="step-title">Get Your Package</div>
+        <div class="step-desc">Choose Adventure or Elite Concierge to unlock healthcare directory access. Elite members get full coordination support.</div>
+      </div>
+      <div class="how-step reveal d2">
+        <div class="step-num">2</div>
+        <div class="step-title">Browse the Network</div>
+        <div class="step-desc">Access our vetted directory of doctors, clinics, dental providers, and specialists — searchable by city and specialty.</div>
+      </div>
+      <div class="how-step reveal d3">
+        <div class="step-num">3</div>
+        <div class="step-title">We Coordinate</div>
+        <div class="step-desc">Elite Concierge members get hands-on help — we contact providers, schedule appointments, and handle logistics for you.</div>
+      </div>
+      <div class="how-step reveal d4">
+        <div class="step-num">4</div>
+        <div class="step-title">Show Your Membership</div>
+        <div class="step-desc">Present your Colombia Trips Co. membership at any partner provider to access your exclusive member pricing and discounts.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DISCLAIMER ── -->
+  <div class="disclaimer-banner">
+    <div class="disclaimer-inner reveal">
+      <div class="disclaimer-icon">⚕️</div>
+      <div class="disclaimer-text">
+        <h4>Important Health Information</h4>
+        <p>Colombia Trips Co. provides healthcare referrals and directory access as a concierge service only. We are not a medical provider, insurance company, or licensed healthcare organization. Member discounts vary by provider and are not guaranteed. Exact savings depend on the specific provider, procedure, and current pricing. All medical decisions should be made in consultation with qualified, licensed healthcare professionals. Colombia Trips Co. is not responsible for the quality or outcome of any medical treatment received through our network.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ELITE CTA ── -->
+  <section class="elite-cta">
+    <div class="elite-box reveal">
+      <h2>Unlock the full<br><em>healthcare network</em></h2>
+      <p>Adventure and Elite Concierge members get access to our complete healthcare directory. Elite members get the added benefit of member discounts, direct coordination, and medical tourism support — all included in your one-time fee.</p>
+      <a href="packages.html#packages" class="btn-green">Get Elite Concierge — $299</a>
+      <a href="packages.html" class="btn-ghost-green">Compare All Packages</a>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="ft-bottom">
+      <a href="index.html" class="ft-logo">Colombia <span>Trips</span></a>
+      <div class="ft-links-row">
+        <a href="vacation.html">Destinations</a>
+        <a href="hotels.html">Hotels & Dining</a>
+        <a href="packages.html">Packages</a>
+        <a href="support.html">Support</a>
+        <a href="about.html">About Us</a>
+      </div>
+      <span class="ft-copy">© 2025 Colombia Trips Co. LLC</span>
+    </div>
+    <p class="ft-disclaimer">Colombia Trips Co. provides travel information and healthcare referrals as a concierge service only. Not a licensed medical provider. Member discounts vary by provider and are not guaranteed. colombiatrips.com</p>
+  </footer>
+
+  <script>
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top  = e.clientY + 'px';
+    });
+    const revEls = document.querySelectorAll('.reveal');
+    const revObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    revEls.forEach(el => revObs.observe(el));
+  </script>
+</body>
+</html>

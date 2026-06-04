@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms of Service — Colombia Trips Co.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --gold:     #D4A843;
+      --gold-lt:  #F0C96B;
+      --ocean-lt: #5EC4E8;
+      --night:    #08151E;
+      --navy:     #0D1F2D;
+      --white:    #FFFFFF;
+      --text-dim: rgba(255,255,255,0.55);
+      --border:   rgba(255,255,255,0.07);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--night);color:var(--white);overflow-x:hidden}
+    #cursorGlow{position:fixed;width:300px;height:300px;background:radial-gradient(circle,rgba(212,168,67,0.05) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left 0.08s,top 0.08s}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:68px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,21,30,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#fff;text-decoration:none}
+    .nav-logo span{color:var(--gold);font-style:italic}
+    .nav-back{font-size:13px;color:var(--text-dim);text-decoration:none;transition:color 0.2s}
+    .nav-back:hover{color:#fff}
+
+    .page-hero{padding:120px 80px 60px;text-align:center;border-bottom:1px solid var(--border)}
+    .hero-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block}
+    .page-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,6vw,72px);font-weight:300;color:#fff;line-height:1;margin-bottom:16px}
+    .page-hero h1 em{font-style:italic;color:var(--gold)}
+    .page-hero p{font-size:15px;color:var(--text-dim);line-height:1.7;max-width:520px;margin:0 auto}
+    .updated{display:inline-block;margin-top:16px;font-size:12px;color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:20px;padding:5px 14px}
+
+    .layout{display:grid;grid-template-columns:220px 1fr;gap:60px;max-width:1100px;margin:0 auto;padding:60px 80px}
+
+    .toc{position:sticky;top:90px;align-self:start}
+    .toc-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:14px}
+    .toc-link{display:block;font-size:13px;color:var(--text-dim);text-decoration:none;padding:6px 0;border-left:2px solid transparent;padding-left:12px;transition:color 0.2s,border-color 0.2s;line-height:1.4}
+    .toc-link:hover,.toc-link.active{color:var(--gold);border-left-color:var(--gold)}
+
+    .content{min-width:0}
+    .policy-section{margin-bottom:52px;padding-bottom:52px;border-bottom:1px solid var(--border)}
+    .policy-section:last-child{border-bottom:none}
+    .policy-section h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#fff;margin-bottom:16px;line-height:1.2}
+    .policy-section p{font-size:15px;color:var(--text-dim);line-height:1.8;margin-bottom:14px}
+    .policy-section ul{padding-left:20px;margin-bottom:14px}
+    .policy-section ul li{font-size:15px;color:var(--text-dim);line-height:1.8;margin-bottom:6px}
+    .policy-section h3{font-size:16px;font-weight:500;color:#fff;margin:24px 0 10px}
+    .highlight-box{background:rgba(212,168,67,0.07);border:1px solid rgba(212,168,67,0.18);border-radius:12px;padding:18px 20px;margin:20px 0}
+    .highlight-box p{margin:0;font-size:14px;color:rgba(255,255,255,0.6)}
+    .warning-box{background:rgba(231,111,81,0.07);border:1px solid rgba(231,111,81,0.18);border-radius:12px;padding:18px 20px;margin:20px 0}
+    .warning-box p{margin:0;font-size:14px;color:rgba(255,255,255,0.6)}
+    .contact-box{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:16px;padding:24px;margin-top:24px}
+    .contact-box h3{font-size:16px;font-weight:500;color:#fff;margin-bottom:12px}
+    .contact-box p{font-size:14px;color:var(--text-dim);margin-bottom:6px}
+    .contact-box a{color:var(--gold);text-decoration:none}
+
+    footer{background:var(--navy);padding:32px 80px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .ft-logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#fff;text-decoration:none}
+    .ft-logo span{color:var(--gold);font-style:italic}
+    .ft-links{display:flex;gap:20px}
+    .ft-links a{font-size:12px;color:rgba(255,255,255,0.3);text-decoration:none;transition:color 0.2s}
+    .ft-links a:hover{color:var(--gold)}
+    .ft-copy{font-size:12px;color:rgba(255,255,255,0.2)}
+
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+
+    @media(max-width:860px){
+      nav{padding:0 20px}
+      .page-hero{padding:100px 24px 48px}
+      .layout{grid-template-columns:1fr;padding:40px 24px;gap:0}
+      .toc{display:none}
+      footer{padding:28px 24px}
+    }
+  </style>
+</head>
+<body>
+  <div id="cursorGlow"></div>
+  <nav>
+    <a href="index.html" class="nav-logo">Colombia <span>Trips</span></a>
+    <a href="index.html" class="nav-back">← Back to Home</a>
+  </nav>
+
+  <div class="page-hero">
+    <span class="hero-label">Legal</span>
+    <h1>Terms of <em>Service</em></h1>
+    <p>Please read these terms carefully before using Colombia Trips Co. By creating an account or purchasing a package, you agree to these terms.</p>
+    <span class="updated">Last updated: May 2025</span>
+  </div>
+
+  <div class="layout">
+    <aside class="toc">
+      <div class="toc-label">Contents</div>
+      <a class="toc-link active" href="#acceptance">Acceptance of Terms</a>
+      <a class="toc-link" href="#service">Our Service</a>
+      <a class="toc-link" href="#accounts">Accounts & Eligibility</a>
+      <a class="toc-link" href="#packages">Packages & Payment</a>
+      <a class="toc-link" href="#refunds">Refund Policy</a>
+      <a class="toc-link" href="#conduct">Acceptable Use</a>
+      <a class="toc-link" href="#healthcare">Healthcare Disclaimer</a>
+      <a class="toc-link" href="#safety">Safety Disclaimer</a>
+      <a class="toc-link" href="#liability">Limitation of Liability</a>
+      <a class="toc-link" href="#termination">Termination</a>
+      <a class="toc-link" href="#governing">Governing Law</a>
+      <a class="toc-link" href="#contact">Contact</a>
+    </aside>
+
+    <div class="content">
+
+      <div class="highlight-box reveal">
+        <p><strong style="color:#fff">Plain English summary:</strong> Colombia Trips Co. provides travel information, recommendations, and a local concierge network. We are not a travel agency, medical provider, or insurance company. Our packages give you access to our platform and network for a one-time fee. Use our service responsibly, and we'll do everything we can to make your Colombia experience extraordinary.</p>
+      </div>
+
+      <div class="policy-section reveal" id="acceptance">
+        <h2>1. Acceptance of Terms</h2>
+        <p>By accessing or using Colombia Trips Co. ("the Service"), creating an account, or purchasing any package, you agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree to these terms, do not use the Service.</p>
+        <p>These Terms constitute a legally binding agreement between you and Colombia Trips Co. LLC, a Florida limited liability company.</p>
+      </div>
+
+      <div class="policy-section reveal" id="service">
+        <h2>2. Our Service</h2>
+        <p>Colombia Trips Co. is a travel concierge information platform that provides:</p>
+        <ul>
+          <li>Curated destination guides, hotel and restaurant recommendations for Colombia</li>
+          <li>A vetted healthcare and medical provider directory for Colombia</li>
+          <li>Access to exclusive partner deals negotiated through our local network</li>
+          <li>24/7 live support and an AI-powered Q&A chatbot</li>
+          <li>Hidden destination guides and off-the-beaten-path recommendations</li>
+        </ul>
+        <p>Colombia Trips Co. is <strong style="color:#fff">not</strong> a licensed travel agency, tour operator, medical provider, insurance company, or booking platform. We provide information, referrals, and concierge support — not direct bookings or medical care.</p>
+      </div>
+
+      <div class="policy-section reveal" id="accounts">
+        <h2>3. Accounts & Eligibility</h2>
+        <p>To use Colombia Trips Co. you must:</p>
+        <ul>
+          <li>Be at least 18 years of age</li>
+          <li>Be a legal resident or citizen of the United States</li>
+          <li>Provide accurate and complete information when creating your account</li>
+          <li>Maintain the security of your account password</li>
+          <li>Promptly notify us of any unauthorized use of your account</li>
+        </ul>
+        <p>You are responsible for all activity that occurs under your account. Colombia Trips Co. reserves the right to suspend or terminate accounts that violate these terms.</p>
+      </div>
+
+      <div class="policy-section reveal" id="packages">
+        <h2>4. Packages & Payment</h2>
+        <h3>Package Tiers</h3>
+        <p>Colombia Trips Co. offers three membership tiers:</p>
+        <ul>
+          <li><strong style="color:#fff">Explorer — $99</strong> one-time fee, lifetime access</li>
+          <li><strong style="color:#fff">Adventure — $199</strong> one-time fee, lifetime access</li>
+          <li><strong style="color:#fff">Elite Concierge — $299</strong> one-time fee, lifetime access</li>
+        </ul>
+        <h3>Payment</h3>
+        <p>All payments are processed securely through Stripe. By purchasing a package, you authorize Colombia Trips Co. to charge the applicable one-time fee to your payment method. All prices are in US Dollars.</p>
+        <h3>Lifetime Access</h3>
+        <p>"Lifetime access" means access for as long as Colombia Trips Co. operates the platform. Colombia Trips Co. reserves the right to modify, update, or discontinue features with reasonable notice to members.</p>
+        <h3>Upgrades</h3>
+        <p>You may upgrade your package at any time by paying the price difference between your current tier and the desired tier. Contact us at hello@colombiatrips.com to upgrade.</p>
+      </div>
+
+      <div class="policy-section reveal" id="refunds">
+        <h2>5. Refund Policy</h2>
+        <div class="highlight-box">
+          <p><strong style="color:#fff">7-Day Satisfaction Guarantee:</strong> If you are not satisfied with your Colombia Trips Co. package for any reason, contact us within 7 days of your purchase date for a full refund. No questions asked.</p>
+        </div>
+        <p>After 7 days from the date of purchase, all sales are final and no refunds will be issued. If you experience any issues with our service after the 7-day period, please contact us and we will work with you to resolve the matter.</p>
+        <p>To request a refund, email hello@colombiatrips.com with your account email and purchase date within 7 days of purchase.</p>
+      </div>
+
+      <div class="policy-section reveal" id="conduct">
+        <h2>6. Acceptable Use</h2>
+        <p>You agree not to use Colombia Trips Co. to:</p>
+        <ul>
+          <li>Share your account credentials or membership access with others</li>
+          <li>Reproduce, distribute, or resell any content from our platform</li>
+          <li>Attempt to reverse engineer, hack, or disrupt our systems</li>
+          <li>Post false reviews or misrepresent your experience</li>
+          <li>Use the service for any unlawful purpose</li>
+          <li>Harass, abuse, or threaten our team or other members</li>
+        </ul>
+        <p>Violation of these terms may result in immediate account termination without refund.</p>
+      </div>
+
+      <div class="policy-section reveal" id="healthcare">
+        <h2>7. Healthcare Disclaimer</h2>
+        <div class="warning-box">
+          <p><strong style="color:#fff">Important:</strong> Colombia Trips Co. provides healthcare provider referrals as a concierge information service only. We are not a licensed medical provider, healthcare organization, or insurance company.</p>
+        </div>
+        <p>Our healthcare directory contains referrals to third-party providers based on personal relationships and vetting by our team. By using our healthcare referrals, you acknowledge that:</p>
+        <ul>
+          <li>Colombia Trips Co. does not employ, supervise, or control any healthcare provider in our network</li>
+          <li>Member discounts vary by provider and are not guaranteed</li>
+          <li>We make no representations regarding the quality, safety, or outcomes of any medical treatment</li>
+          <li>All medical decisions should be made in consultation with licensed healthcare professionals</li>
+          <li>Colombia Trips Co. is not liable for any medical outcomes resulting from use of our network referrals</li>
+        </ul>
+        <p>You use our healthcare referrals entirely at your own risk and discretion.</p>
+      </div>
+
+      <div class="policy-section reveal" id="safety">
+        <h2>8. Safety Disclaimer</h2>
+        <p>Colombia Trips Co. provides safety guidance and travel tips as general informational resources to help members navigate their trip more comfortably. By using our safety information, you acknowledge that:</p>
+        <ul>
+          <li>We do not guarantee personal safety during travel to Colombia or any other destination</li>
+          <li>Safety conditions can change rapidly and our guidance may not reflect the most current conditions</li>
+          <li>Travelers are solely responsible for their own decisions and actions while abroad</li>
+          <li>We strongly recommend consulting the U.S. Department of State travel advisories before traveling</li>
+        </ul>
+        <p>Colombia Trips Co. is not liable for any personal injury, loss, or damage occurring during your travels, regardless of whether you relied on our safety guidance.</p>
+      </div>
+
+      <div class="policy-section reveal" id="liability">
+        <h2>9. Limitation of Liability</h2>
+        <p>To the maximum extent permitted by law, Colombia Trips Co. LLC, its founders, employees, and agents shall not be liable for:</p>
+        <ul>
+          <li>Any indirect, incidental, special, or consequential damages</li>
+          <li>Any loss of profits, revenue, data, or business opportunities</li>
+          <li>Any damages resulting from your travel to Colombia or use of our network referrals</li>
+          <li>Any actions or omissions of third-party hotels, restaurants, healthcare providers, or other partners in our network</li>
+        </ul>
+        <p>Our total liability to you for any claim arising out of these terms or your use of the service shall not exceed the amount you paid for your package.</p>
+      </div>
+
+      <div class="policy-section reveal" id="termination">
+        <h2>10. Termination</h2>
+        <p>Colombia Trips Co. reserves the right to suspend or terminate your account at any time if you violate these Terms of Service. In the event of termination for cause, no refund will be issued.</p>
+        <p>You may cancel your account at any time by contacting hello@colombiatrips.com. Cancellation does not entitle you to a refund outside of the 7-day satisfaction guarantee window.</p>
+      </div>
+
+      <div class="policy-section reveal" id="governing">
+        <h2>11. Governing Law</h2>
+        <p>These Terms of Service shall be governed by and construed in accordance with the laws of the State of Florida, United States, without regard to its conflict of law provisions.</p>
+        <p>Any disputes arising from these terms or your use of Colombia Trips Co. shall be resolved through binding arbitration in Seminole County, Florida, in accordance with the rules of the American Arbitration Association, except that either party may seek injunctive relief in a court of competent jurisdiction.</p>
+      </div>
+
+      <div class="policy-section reveal" id="contact">
+        <h2>12. Contact Us</h2>
+        <p>If you have any questions about these Terms of Service, please contact us:</p>
+        <div class="contact-box">
+          <h3>Colombia Trips Co. LLC</h3>
+          <p>📧 <a href="mailto:hello@colombiatrips.com">hello@colombiatrips.com</a></p>
+          <p>🌐 <a href="https://colombiatrips.com">colombiatrips.com</a></p>
+          <p>📍 Sanford, Florida, USA</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <a href="index.html" class="ft-logo">Colombia <span>Trips</span></a>
+    <div class="ft-links">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="support.html">Contact</a>
+    </div>
+    <span class="ft-copy">© 2025 Colombia Trips Co. LLC</span>
+  </footer>
+
+  <script>
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', e => { glow.style.left=e.clientX+'px'; glow.style.top=e.clientY+'px'; });
+    document.querySelectorAll('.reveal').forEach(el => new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:0.08}).observe(el));
+    const sections = document.querySelectorAll('.policy-section');
+    const tocLinks = document.querySelectorAll('.toc-link');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if(window.scrollY >= s.offsetTop - 120) current = s.id; });
+      tocLinks.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#'+current); });
+    });
+  </script>
+</body>
+</html>

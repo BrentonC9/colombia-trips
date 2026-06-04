@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Dashboard — Colombia Trips Co.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ocean:    #0B7EA8;
+      --ocean-lt: #5EC4E8;
+      --ocean-dk: #075A7A;
+      --gold:     #D4A843;
+      --gold-lt:  #F0C96B;
+      --green:    #4CAF7D;
+      --coral:    #E76F51;
+      --purple:   #7B6CF6;
+      --teal:     #2A9D8F;
+      --night:    #08151E;
+      --navy:     #0D1F2D;
+      --card:     #0F2030;
+      --border:   rgba(255,255,255,0.07);
+      --text-dim: rgba(255,255,255,0.45);
+      --white:    #FFFFFF;
+    }
+    html{scroll-behavior:smooth;height:100%}
+    body{font-family:'DM Sans',sans-serif;background:var(--night);color:var(--white);min-height:100vh;display:flex;overflow-x:hidden}
+
+    /* ── SIDEBAR ── */
+    .sidebar{
+      background:var(--navy);
+      border-right:1px solid var(--border);
+      display:flex;flex-direction:column;
+      min-height:100vh;position:fixed;
+      width:260px;top:0;left:0;bottom:0;
+      overflow-y:auto;z-index:50;
+    }
+    .sidebar-logo{
+      padding:28px 24px 20px;
+      border-bottom:1px solid var(--border);
+    }
+    .sidebar-logo a{
+      font-family:'Cormorant Garamond',serif;
+      font-size:22px;font-weight:600;color:#fff;text-decoration:none;
+    }
+    .sidebar-logo a span{color:var(--gold);font-style:italic}
+    .sidebar-member{
+      padding:20px 24px;
+      border-bottom:1px solid var(--border);
+      display:flex;align-items:center;gap:12px;
+    }
+    .member-avatar{
+      width:40px;height:40px;border-radius:50%;
+      background:linear-gradient(135deg,var(--ocean),var(--ocean-lt));
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;
+      color:#fff;flex-shrink:0;
+    }
+    .member-name{font-size:14px;font-weight:500;color:#fff}
+    .member-tier{
+      display:inline-flex;align-items:center;gap:4px;
+      font-size:10px;font-weight:500;letter-spacing:1px;
+      text-transform:uppercase;padding:3px 10px;border-radius:20px;
+      margin-top:3px;
+    }
+    .tier-explorer{background:rgba(11,126,168,0.2);color:var(--ocean-lt)}
+    .tier-adventure{background:rgba(212,168,67,0.2);color:var(--gold-lt)}
+    .tier-elite{background:rgba(123,108,246,0.2);color:#A99DF8}
+
+    /* Nav */
+    .sidebar-nav{flex:1;padding:16px 12px}
+    .nav-section-label{
+      font-size:10px;letter-spacing:2px;text-transform:uppercase;
+      color:rgba(255,255,255,0.2);padding:12px 12px 6px;
+    }
+    .nav-item{
+      display:flex;align-items:center;gap:10px;
+      padding:10px 12px;border-radius:10px;
+      font-size:14px;color:rgba(255,255,255,0.55);
+      text-decoration:none;cursor:pointer;
+      transition:background 0.15s,color 0.15s;
+      margin-bottom:2px;border:none;background:none;
+      width:100%;text-align:left;font-family:'DM Sans',sans-serif;
+    }
+    .nav-item:hover{background:rgba(255,255,255,0.05);color:#fff}
+    .nav-item.active{background:rgba(11,126,168,0.15);color:var(--ocean-lt)}
+    .nav-item.active .nav-icon{color:var(--ocean-lt)}
+    .nav-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+    .nav-badge{
+      margin-left:auto;font-size:10px;font-weight:500;
+      padding:2px 8px;border-radius:20px;
+      background:var(--ocean);color:#fff;
+    }
+    .nav-badge.locked{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.3)}
+
+    .sidebar-bottom{
+      padding:16px 12px;
+      border-top:1px solid var(--border);
+    }
+    .support-btn{
+      display:flex;align-items:center;gap:10px;
+      padding:12px 16px;border-radius:12px;
+      background:rgba(76,175,125,0.1);
+      border:1px solid rgba(76,175,125,0.2);
+      color:var(--green);font-size:14px;font-weight:500;
+      text-decoration:none;transition:background 0.2s;
+      margin-bottom:8px;
+    }
+    .support-btn:hover{background:rgba(76,175,125,0.18)}
+    .logout-btn{
+      display:flex;align-items:center;gap:10px;
+      padding:10px 12px;border-radius:10px;
+      font-size:13px;color:rgba(255,255,255,0.3);
+      cursor:pointer;transition:color 0.2s;
+      border:none;background:none;font-family:'DM Sans',sans-serif;width:100%;
+    }
+    .logout-btn:hover{color:rgba(255,255,255,0.7)}
+
+    /* ── MAIN CONTENT ── */
+    .main{margin-left:260px;flex:1;min-height:100vh;min-width:0;overflow-x:hidden}
+
+    /* Top bar */
+    .topbar{
+      background:rgba(8,21,30,0.95);backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--border);
+      padding:0 40px;height:64px;
+      display:flex;align-items:center;justify-content:space-between;
+      position:sticky;top:0;z-index:40;
+    }
+    .topbar-title{font-size:16px;font-weight:500;color:#fff}
+    .topbar-right{display:flex;align-items:center;gap:16px}
+    .topbar-support{
+      display:flex;align-items:center;gap:7px;
+      font-size:13px;color:var(--green);
+      background:rgba(76,175,125,0.1);
+      border:1px solid rgba(76,175,125,0.2);
+      border-radius:50px;padding:7px 16px;
+      text-decoration:none;transition:background 0.2s;
+    }
+    .topbar-support:hover{background:rgba(76,175,125,0.18)}
+    .support-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.5)}}
+
+    /* Page content */
+    .content{padding:36px 40px}
+
+    /* Welcome banner */
+    .welcome-banner{
+      background:linear-gradient(135deg,rgba(11,126,168,0.15) 0%,rgba(11,126,168,0.05) 100%);
+      border:1px solid rgba(11,126,168,0.2);
+      border-radius:20px;padding:32px 36px;
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:28px;position:relative;overflow:hidden;
+    }
+    .welcome-banner::before{
+      content:'';position:absolute;
+      width:300px;height:300px;border-radius:50%;
+      background:radial-gradient(circle,rgba(11,126,168,0.1) 0%,transparent 70%);
+      top:-100px;right:-60px;pointer-events:none;
+    }
+    .welcome-left h2{
+      font-family:'Cormorant Garamond',serif;
+      font-size:28px;font-weight:300;color:#fff;
+      margin-bottom:6px;
+    }
+    .welcome-left h2 em{font-style:italic;color:var(--ocean-lt)}
+    .welcome-left p{font-size:14px;color:var(--text-dim);line-height:1.5}
+    .welcome-pkg-badge{
+      display:flex;flex-direction:column;align-items:center;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:16px;padding:20px 28px;text-align:center;
+      flex-shrink:0;
+    }
+    .pkg-badge-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px}
+    .pkg-badge-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--gold)}
+    .pkg-badge-sub{font-size:11px;color:var(--text-dim);margin-top:4px}
+    .upgrade-link{font-size:12px;color:var(--ocean-lt);text-decoration:none;margin-top:6px;display:block;transition:color 0.2s}
+    .upgrade-link:hover{color:#fff}
+
+    /* Stats row */
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+    .stat-card{
+      background:var(--card);border:1px solid var(--border);
+      border-radius:16px;padding:20px;
+      transition:border-color 0.2s;
+    }
+    .stat-card:hover{border-color:rgba(255,255,255,0.12)}
+    .stat-icon{font-size:20px;margin-bottom:10px}
+    .stat-val{
+      font-family:'Cormorant Garamond',serif;
+      font-size:28px;font-weight:300;color:#fff;
+      line-height:1;margin-bottom:4px;
+    }
+    .stat-label{font-size:12px;color:var(--text-dim)}
+
+    /* Section title */
+    .section-head{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:16px;
+    }
+    .section-head h3{font-size:16px;font-weight:500;color:#fff}
+    .section-head a{font-size:13px;color:var(--ocean-lt);text-decoration:none;transition:color 0.2s}
+    .section-head a:hover{color:#fff}
+
+    /* Quick access grid */
+    .quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+    .quick-card{
+      background:var(--card);border:1px solid var(--border);
+      border-radius:16px;padding:24px;
+      text-decoration:none;display:block;
+      position:relative;overflow:hidden;
+      transition:transform 0.2s,border-color 0.2s,background 0.2s;
+    }
+    .quick-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,0.14)}
+    .quick-card::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      transform:scaleX(0);transform-origin:left;transition:transform 0.3s;
+    }
+    .quick-card:hover::before{transform:scaleX(1)}
+    .qc-ocean::before{background:var(--ocean-lt)}
+    .qc-teal::before{background:var(--teal)}
+    .qc-coral::before{background:var(--coral)}
+    .qc-green::before{background:var(--green)}
+    .qc-gold::before{background:var(--gold)}
+    .qc-purple::before{background:var(--purple)}
+    .quick-icon{font-size:28px;margin-bottom:12px}
+    .quick-name{font-size:15px;font-weight:500;color:#fff;margin-bottom:4px}
+    .quick-desc{font-size:12px;color:var(--text-dim);line-height:1.4}
+    .quick-arrow{
+      position:absolute;top:20px;right:20px;
+      font-size:13px;color:rgba(255,255,255,0.2);
+      transition:color 0.2s,transform 0.2s;
+    }
+    .quick-card:hover .quick-arrow{color:rgba(255,255,255,0.7);transform:translateX(3px)}
+    .locked-overlay{
+      position:absolute;inset:0;
+      background:rgba(8,21,30,0.7);backdrop-filter:blur(2px);
+      border-radius:16px;
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;gap:8px;
+    }
+    .locked-icon{font-size:20px;opacity:0.5}
+    .locked-text{font-size:12px;color:rgba(255,255,255,0.4);text-align:center;line-height:1.4;max-width:120px}
+    .locked-upgrade{
+      font-size:11px;color:var(--gold);
+      background:rgba(212,168,67,0.1);
+      border-radius:20px;padding:4px 12px;
+      text-decoration:none;border:1px solid rgba(212,168,67,0.2);
+    }
+
+    /* Destinations cards */
+    .dest-scroll{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      gap:14px;margin-bottom:28px;
+    }
+    .dest-mini{
+      border-radius:14px;overflow:hidden;
+      position:relative;height:160px;cursor:pointer;
+      transition:transform 0.2s;
+    }
+    .dest-mini:hover{transform:translateY(-3px)}
+    .dest-mini-img{
+      width:100%;height:100%;
+      background-size:cover;background-position:center;
+      transition:transform 0.4s;
+    }
+    .dest-mini:hover .dest-mini-img{transform:scale(1.06)}
+    .dest-mini-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(to top,rgba(8,21,30,0.85) 0%,transparent 55%);
+    }
+    .dest-mini-info{position:absolute;bottom:12px;left:14px;right:14px}
+    .dest-mini-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:#fff}
+    .dest-mini-type{font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase}
+    .dm-sanandres{background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80&fit=crop') center/cover}
+    .dm-medellin{background:url('https://images.unsplash.com/photo-1558642084-fd07fae5282e?w=600&q=80&fit=crop') center/cover}
+    .dm-cartagena{background:url('https://images.unsplash.com/photo-1536526399863-b5afc7e36c82?w=600&q=80&fit=crop') center/cover}
+
+    /* Member deals */
+    .deals-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:28px}
+    .deal-item{
+      background:var(--card);border:1px solid var(--border);
+      border-radius:14px;padding:18px 20px;
+      display:flex;align-items:center;gap:14px;
+      transition:border-color 0.2s;
+    }
+    .deal-item:hover{border-color:rgba(255,255,255,0.12)}
+    .deal-emoji{font-size:24px;flex-shrink:0}
+    .deal-info{}
+    .deal-type{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:3px}
+    .deal-name{font-size:14px;font-weight:500;color:#fff;margin-bottom:2px}
+    .deal-discount{font-size:12px;color:var(--gold)}
+
+    /* Healthcare access card */
+    .hc-access{
+      background:linear-gradient(135deg,rgba(76,175,125,0.08) 0%,rgba(76,175,125,0.03) 100%);
+      border:1px solid rgba(76,175,125,0.18);
+      border-radius:16px;padding:24px;margin-bottom:28px;
+      display:flex;align-items:center;justify-content:space-between;
+      gap:20px;
+    }
+    .hc-left{display:flex;align-items:center;gap:14px}
+    .hc-icon{font-size:28px}
+    .hc-title{font-size:15px;font-weight:500;color:#fff;margin-bottom:3px}
+    .hc-sub{font-size:13px;color:var(--text-dim)}
+    .hc-btn{
+      font-size:13px;font-weight:500;padding:10px 22px;border-radius:50px;
+      background:var(--green);color:#fff;text-decoration:none;
+      white-space:nowrap;flex-shrink:0;
+      transition:background 0.2s,transform 0.15s;
+    }
+    .hc-btn:hover{background:#5DC98F;transform:translateY(-1px)}
+
+    /* Support card */
+    .support-card{
+      background:var(--card);border:1px solid var(--border);
+      border-radius:16px;padding:24px;
+      display:flex;align-items:center;justify-content:space-between;gap:20px;
+    }
+    .support-left{display:flex;align-items:center;gap:14px}
+    .support-icon{font-size:28px}
+    .support-title{font-size:15px;font-weight:500;color:#fff;margin-bottom:3px}
+    .support-sub{font-size:13px;color:var(--text-dim)}
+    .support-actions{display:flex;gap:10px;flex-shrink:0}
+    .support-action-btn{
+      font-size:13px;padding:9px 18px;border-radius:50px;
+      text-decoration:none;transition:all 0.2s;
+    }
+    .sab-green{background:var(--green);color:#fff}
+    .sab-green:hover{background:#5DC98F}
+    .sab-outline{background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6)}
+    .sab-outline:hover{border-color:rgba(255,255,255,0.3);color:#fff}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:960px){
+      body{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .main{margin-left:0}
+      .content{padding:20px}
+      .stats-row{grid-template-columns:1fr 1fr}
+      .quick-grid{grid-template-columns:1fr 1fr}
+      .dest-scroll{grid-template-columns:1fr 1fr}
+      .deals-grid{grid-template-columns:1fr}
+      .welcome-banner{flex-direction:column;gap:20px}
+      .welcome-pkg-badge{width:100%}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <a href="index.html">Colombia <span>Trips</span></a>
+    </div>
+
+    <div class="sidebar-member">
+      <div class="member-avatar" id="memberAvatar">B</div>
+      <div>
+        <div class="member-name" id="memberName">Brenton</div>
+        <div class="member-tier tier-adventure" id="memberTierBadge">✦ Adventure</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Menu</div>
+      <button class="nav-item active" onclick="showSection('overview')">
+        <span class="nav-icon">🏠</span> Overview
+      </button>
+      <button class="nav-item" onclick="showSection('destinations')">
+        <span class="nav-icon">🗺️</span> Destinations
+      </button>
+      <button class="nav-item" onclick="showSection('hotels')">
+        <span class="nav-icon">🏨</span> Hotels & Dining
+      </button>
+      <button class="nav-item" onclick="showSection('healthcare')">
+        <span class="nav-icon">🩺</span> Healthcare Network
+        <span class="nav-badge" id="hcBadge">✓</span>
+      </button>
+      <button class="nav-item" onclick="showSection('hotspots')">
+        <span class="nav-icon">🔥</span> Hot Spots
+      </button>
+      <button class="nav-item" onclick="showSection('deals')">
+        <span class="nav-icon">✦</span> Member Deals
+      </button>
+
+      <div class="nav-section-label" style="margin-top:12px">Account</div>
+      <button class="nav-item" onclick="showSection('settings')">
+        <span class="nav-icon">⚙️</span> Settings
+      </button>
+      <a href="packages.html" class="nav-item">
+        <span class="nav-icon">⬆️</span> Upgrade Package
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a href="support.html" class="support-btn">
+        <span>📞</span> 24/7 Support
+      </a>
+      <button class="logout-btn" onclick="window.location='index.html'">
+        <span>→</span> Log Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">Dashboard Overview</div>
+      <div class="topbar-right">
+        <a href="support.html" class="topbar-support">
+          <div class="support-dot"></div>
+          24/7 Support
+        </a>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- WELCOME BANNER -->
+      <div class="welcome-banner">
+        <div class="welcome-left">
+          <h2>Welcome back, <em id="welcomeName">Brenton</em> 👋</h2>
+          <p>Your Colombia Trips Co. membership is active. Everything you need is right here.</p>
+        </div>
+        <div class="welcome-pkg-badge">
+          <div class="pkg-badge-label">Your Package</div>
+          <div class="pkg-badge-name" id="pkgBadgeName">Adventure</div>
+          <div class="pkg-badge-sub">Lifetime Access</div>
+          <a href="packages.html" class="upgrade-link">Upgrade to Elite →</a>
+        </div>
+      </div>
+
+      <!-- STATS ROW -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon">🏝</div>
+          <div class="stat-val">6</div>
+          <div class="stat-label">Destinations unlocked</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏨</div>
+          <div class="stat-val">12+</div>
+          <div class="stat-label">Vetted hotels & properties</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🍽</div>
+          <div class="stat-val">20+</div>
+          <div class="stat-label">Restaurant recommendations</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🩺</div>
+          <div class="stat-val" id="hcCount">✓</div>
+          <div class="stat-label">Healthcare network access</div>
+        </div>
+      </div>
+
+      <!-- QUICK ACCESS -->
+      <div class="section-head">
+        <h3>Quick Access</h3>
+      </div>
+      <div class="quick-grid">
+        <a href="vacation.html" class="quick-card qc-teal">
+          <div class="quick-icon">🗺️</div>
+          <div class="quick-name">Destinations</div>
+          <div class="quick-desc">San Andrés, Medellín, Cartagena, hidden hot spots and more</div>
+          <div class="quick-arrow">→</div>
+        </a>
+        <a href="hotels.html" class="quick-card qc-coral">
+          <div class="quick-icon">🏨</div>
+          <div class="quick-name">Hotels & Dining</div>
+          <div class="quick-desc">Vetted properties and restaurants with member deals</div>
+          <div class="quick-arrow">→</div>
+        </a>
+        <a href="healthcare.html" class="quick-card qc-green" id="hcQuickCard">
+          <div class="quick-icon">🩺</div>
+          <div class="quick-name">Healthcare Network</div>
+          <div class="quick-desc">Doctors, clinics, dental, cosmetic — vetted and trusted</div>
+          <div class="quick-arrow">→</div>
+        </a>
+        <a href="vacation.html#hotspots" class="quick-card qc-ocean">
+          <div class="quick-icon">🔥</div>
+          <div class="quick-name">Hidden Hot Spots</div>
+          <div class="quick-desc">Secret destinations only Colombia Trips members know</div>
+          <div class="quick-arrow">→</div>
+        </a>
+        <a href="support.html" class="quick-card qc-purple">
+          <div class="quick-icon">💬</div>
+          <div class="quick-name">AI Chatbot</div>
+          <div class="quick-desc">Instant answers to any Colombia question, 24/7</div>
+          <div class="quick-arrow">→</div>
+        </a>
+        <a href="support.html" class="quick-card qc-gold">
+          <div class="quick-icon">📞</div>
+          <div class="quick-name">24/7 Support</div>
+          <div class="quick-desc">Call or message our team anytime — we know Colombia</div>
+          <div class="quick-arrow">→</div>
+        </a>
+      </div>
+
+      <!-- TOP DESTINATIONS -->
+      <div class="section-head">
+        <h3>Top Destinations</h3>
+        <a href="vacation.html">View all →</a>
+      </div>
+      <div class="dest-scroll">
+        <div class="dest-mini">
+          <div class="dest-mini-img dm-sanandres"></div>
+          <div class="dest-mini-overlay"></div>
+          <div class="dest-mini-info">
+            <div class="dest-mini-type">Beach · Caribbean</div>
+            <div class="dest-mini-name">San Andrés</div>
+          </div>
+        </div>
+        <div class="dest-mini">
+          <div class="dest-mini-img dm-medellin"></div>
+          <div class="dest-mini-overlay"></div>
+          <div class="dest-mini-info">
+            <div class="dest-mini-type">City · Nightlife</div>
+            <div class="dest-mini-name">Medellín</div>
+          </div>
+        </div>
+        <div class="dest-mini">
+          <div class="dest-mini-img dm-cartagena"></div>
+          <div class="dest-mini-overlay"></div>
+          <div class="dest-mini-info">
+            <div class="dest-mini-type">Historic · Coastal</div>
+            <div class="dest-mini-name">Cartagena</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HEALTHCARE ACCESS -->
+      <div class="hc-access" id="hcAccessCard">
+        <div class="hc-left">
+          <div class="hc-icon">🩺</div>
+          <div>
+            <div class="hc-title">Healthcare Network — Active</div>
+            <div class="hc-sub">Browse vetted doctors, clinics, dental providers and specialists across Colombia</div>
+          </div>
+        </div>
+        <a href="healthcare.html" class="hc-btn">Browse Network →</a>
+      </div>
+
+      <!-- MEMBER DEALS -->
+      <div class="section-head">
+        <h3>Your Member Deals</h3>
+        <a href="hotels.html">View all →</a>
+      </div>
+      <div class="deals-grid">
+        <div class="deal-item">
+          <div class="deal-emoji">🏨</div>
+          <div class="deal-info">
+            <div class="deal-type">Hotel · San Andrés</div>
+            <div class="deal-name">Chris's Top Pick — Coming Soon</div>
+            <div class="deal-discount">✦ Exclusive member rate</div>
+          </div>
+        </div>
+        <div class="deal-item">
+          <div class="deal-emoji">🍽</div>
+          <div class="deal-info">
+            <div class="deal-type">Restaurant · Cartagena</div>
+            <div class="deal-name">Best Seafood in the Old City</div>
+            <div class="deal-discount">✦ Priority reservations</div>
+          </div>
+        </div>
+        <div class="deal-item">
+          <div class="deal-emoji">🏨</div>
+          <div class="deal-info">
+            <div class="deal-type">Hotel · Medellín</div>
+            <div class="deal-name">El Poblado — Top Property</div>
+            <div class="deal-discount">✦ Exclusive member rate</div>
+          </div>
+        </div>
+        <div class="deal-item">
+          <div class="deal-emoji">🦷</div>
+          <div class="deal-info">
+            <div class="deal-type">Dental · Medellín</div>
+            <div class="deal-name">Vetted Dental Provider</div>
+            <div class="deal-discount">✦ Member discount available</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUPPORT -->
+      <div class="support-card">
+        <div class="support-left">
+          <div class="support-icon">📞</div>
+          <div>
+            <div class="support-title">Need help? We're always here.</div>
+            <div class="support-sub">24/7 live support — real people who know Colombia</div>
+          </div>
+        </div>
+        <div class="support-actions">
+          <a href="support.html" class="support-action-btn sab-green">Call / WhatsApp</a>
+          <a href="support.html" class="support-action-btn sab-outline">Email Us</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // ── Member config
+    // CONNECT TO SUPABASE: replace this object with real user data from supabase auth session
+    const member = {
+      name: 'Brenton',
+      tier: 'adventure', // 'explorer' | 'adventure' | 'elite'
+      initials: 'B'
+    };
+
+    const tierConfig = {
+      explorer: { label: 'Explorer', badgeClass: 'tier-explorer', color: '#5EC4E8', hcAccess: false },
+      adventure: { label: 'Adventure', badgeClass: 'tier-adventure', color: '#D4A843', hcAccess: true },
+      elite: { label: 'Elite Concierge', badgeClass: 'tier-elite', color: '#A99DF8', hcAccess: true }
+    };
+
+    // Apply member data to UI
+    const cfg = tierConfig[member.tier];
+    document.getElementById('memberAvatar').textContent = member.initials;
+    document.getElementById('memberName').textContent = member.name;
+    document.getElementById('welcomeName').textContent = member.name;
+    document.getElementById('pkgBadgeName').textContent = cfg.label;
+    document.getElementById('pkgBadgeName').style.color = cfg.color;
+    const tierBadge = document.getElementById('memberTierBadge');
+    tierBadge.className = 'member-tier ' + cfg.badgeClass;
+    tierBadge.textContent = '✦ ' + cfg.label;
+
+    // Lock healthcare for Explorer tier
+    if(!cfg.hcAccess) {
+      document.getElementById('hcBadge').className = 'nav-badge locked';
+      document.getElementById('hcBadge').textContent = '🔒';
+      document.getElementById('hcCount').textContent = '🔒';
+      const hcCard = document.getElementById('hcQuickCard');
+      hcCard.style.pointerEvents = 'none';
+      hcCard.innerHTML += '<div class="locked-overlay"><div class="locked-icon">🔒</div><div class="locked-text">Healthcare access requires Adventure or Elite</div><a href="packages.html" class="locked-upgrade" style="pointer-events:all">Upgrade →</a></div>';
+      document.getElementById('hcAccessCard').innerHTML = '<div class="hc-left"><div class="hc-icon">🔒</div><div><div class="hc-title">Healthcare Network — Locked</div><div class="hc-sub">Upgrade to Adventure or Elite to unlock healthcare directory access</div></div></div><a href="packages.html" class="hc-btn" style="background:var(--gold);color:var(--night)">Upgrade Package →</a>';
+      document.getElementById('hcAccessCard').style.background = 'rgba(212,168,67,0.05)';
+      document.getElementById('hcAccessCard').style.borderColor = 'rgba(212,168,67,0.15)';
+    }
+
+    // Hide upgrade link for Elite
+    if(member.tier === 'elite') {
+      document.querySelector('.upgrade-link').style.display = 'none';
+    }
+
+    // Section switching (sidebar nav)
+    function showSection(section) {
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      const titles = { overview:'Dashboard Overview', destinations:'Destinations', hotels:'Hotels & Dining', healthcare:'Healthcare Network', hotspots:'Hidden Hot Spots', deals:'Member Deals', settings:'Account Settings' };
+      document.getElementById('topbarTitle').textContent = titles[section] || 'Dashboard';
+      // Future: swap content panels per section
+      // For now all content is on one scrollable page
+    }
+  </script>
+</body>
+</html>
