@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Colombia Trips Co. — All of Colombia, One Platform</title>
+
+  <!-- ── PWA META TAGS ── -->
+  <meta name="application-name" content="Colombia Trips Co."/>
+  <meta name="description" content="Your all-inclusive Colombia travel and concierge network. Hotels, restaurants, healthcare, and 24/7 support — one fee."/>
+  <meta name="theme-color" content="#0B7EA8"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Colombia Trips"/>
+  <meta name="msapplication-TileColor" content="#08151E"/>
+  <meta name="msapplication-TileImage" content="icons/icon-144x144.png"/>
+
+  <!-- ── OPEN GRAPH (social sharing) ── -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://colombiatrips.com"/>
+  <meta property="og:title" content="Colombia Trips Co. — Your Colombia Travel Network"/>
+  <meta property="og:description" content="Hotels, restaurants, healthcare network, and 24/7 support. One fee. Real local connections."/>
+  <meta property="og:image" content="images/og-image.jpg"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Colombia Trips Co."/>
+  <meta name="twitter:description" content="Your all-inclusive Colombia travel network. One fee. Real connections."/>
+
+  <!-- ── PWA MANIFEST ── -->
+  <link rel="manifest" href="manifest.json"/>
+
+  <!-- ── APPLE TOUCH ICONS ── -->
+  <link rel="apple-touch-icon" href="icons/icon-152x152.png"/>
+  <link rel="apple-touch-icon" sizes="72x72" href="icons/icon-72x72.png"/>
+  <link rel="apple-touch-icon" sizes="96x96" href="icons/icon-96x96.png"/>
+  <link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128x128.png"/>
+  <link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144x144.png"/>
+  <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png"/>
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192x192.png"/>
+  <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512x512.png"/>
+
+  <!-- ── FAVICON ── -->
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96x96.png"/>
+  <link rel="shortcut icon" href="icons/icon-96x96.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ocean:    #0B7EA8;
+      --ocean-dk: #085A7A;
+      --ocean-lt: #5EC4E8;
+      --sand:     #F5EFE0;
+      --sand2:    #EDE4CF;
+      --coral:    #E8724A;
+      --gold:     #D4A843;
+      --night:    #08151E;
+      --text:     #0D1A22;
+      --text-mid: #4A6070;
+      --white:    #FFFFFF;
+      --cream:    #FDFAF4;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+
+    /* ── CURSOR GLOW ── */
+    #cursorGlow{
+      position:fixed;width:320px;height:320px;
+      background:radial-gradient(circle,rgba(94,196,232,0.1) 0%,transparent 70%);
+      border-radius:50%;pointer-events:none;z-index:9998;
+      transform:translate(-50%,-50%);transition:left 0.08s,top 0.08s;
+    }
+
+    /* ── LOADING SCREEN ── */
+    #loader{
+      position:fixed;inset:0;z-index:9999;
+      background:var(--night);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      transition:opacity 0.8s ease;
+    }
+    #loader.hide{opacity:0;pointer-events:none}
+    .loader-logo{
+      font-family:'Cormorant Garamond',serif;
+      font-size:36px;font-weight:300;color:#fff;
+      letter-spacing:2px;margin-bottom:32px;
+    }
+    .loader-logo span{color:var(--ocean-lt);font-style:italic}
+    .loader-bar{width:200px;height:1px;background:rgba(255,255,255,0.1);border-radius:1px;overflow:hidden}
+    .loader-fill{height:100%;width:0;background:var(--ocean-lt);animation:load 1.6s ease forwards}
+    @keyframes load{to{width:100%}}
+
+    /* ── NAV ── */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      padding:0 48px;height:72px;
+      display:flex;align-items:center;justify-content:space-between;
+      transition:background 0.4s,box-shadow 0.3s;
+    }
+    nav.scrolled{
+      background:rgba(8,21,30,0.92);
+      backdrop-filter:blur(16px);
+      box-shadow:0 1px 0 rgba(255,255,255,0.06);
+    }
+    .nav-logo{
+      font-family:'Cormorant Garamond',serif;
+      font-size:24px;font-weight:600;color:#fff;
+      text-decoration:none;letter-spacing:0.5px;
+    }
+    .nav-logo span{color:var(--ocean-lt);font-style:italic}
+    .nav-links{display:flex;gap:32px;list-style:none}
+    .nav-links a{
+      font-size:13px;font-weight:400;letter-spacing:0.5px;
+      color:rgba(255,255,255,0.7);text-decoration:none;
+      transition:color 0.2s;
+    }
+    .nav-links a:hover{color:var(--ocean-lt)}
+    .nav-btn{
+      font-size:13px;font-weight:500;
+      padding:10px 24px;border-radius:50px;
+      background:var(--ocean);border:none;
+      color:#fff;cursor:pointer;text-decoration:none;
+      box-shadow:0 0 20px rgba(11,126,168,0.4);
+      transition:background 0.2s,box-shadow 0.2s,transform 0.15s;
+    }
+    .nav-btn:hover{background:var(--ocean-lt);transform:translateY(-1px);box-shadow:0 0 30px rgba(94,196,232,0.5)}
+    .nav-login{
+      font-size:13px;font-weight:400;
+      padding:9px 22px;border-radius:50px;
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.3);
+      color:rgba(255,255,255,0.85);cursor:pointer;text-decoration:none;
+      transition:background 0.2s,border-color 0.2s,transform 0.15s;
+    }
+    .nav-login:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.6);transform:translateY(-1px)}
+    nav.scrolled .nav-login{border-color:rgba(11,126,168,0.5);color:var(--ocean)}
+    nav.scrolled .nav-login:hover{background:rgba(11,126,168,0.08);border-color:var(--ocean)}
+    .nav-actions{display:flex;align-items:center;gap:10px}
+
+    /* ── HERO FULLSCREEN ── */
+    .hero{position:relative;height:100vh;overflow:hidden}
+    .hero-slides{position:absolute;inset:0}
+    .hero-slide{
+      position:absolute;inset:0;opacity:0;
+      transition:opacity 1.5s ease;
+      background-size:cover;background-position:center;
+    }
+    .hero-slide.active{opacity:1}
+
+    /* Slide 1: San Andres beach — keep existing */
+    .sl-1{background:url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1800&q=85&fit=crop') center/cover no-repeat}
+    /* Slide 2: Medellin / Guatape — El Penol rock and lake */
+    .sl-2{background:url('https://images.unsplash.com/photo-1558642084-fd07fae5282e?w=1800&q=85&fit=crop') center/cover no-repeat}
+    /* Slide 3: Hot Spot 1 — Colombia lush jungle/nature */
+    .sl-3{background:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1800&q=85&fit=crop') center/cover no-repeat}
+    /* Slide 4: Hot Spot 2 — Colombia mountains/landscape */
+    .sl-4{background:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1800&q=85&fit=crop') center/cover no-repeat}
+
+    .hero-slide::after{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(
+        to bottom,
+        rgba(8,21,30,0.25) 0%,
+        rgba(8,21,30,0.1) 35%,
+        rgba(8,21,30,0.55) 75%,
+        rgba(8,21,30,0.85) 100%
+      );
+    }
+    .hero-content{
+      position:absolute;bottom:0;left:0;right:0;
+      z-index:2;padding:0 80px 80px;
+    }
+    .hero-eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:11px;letter-spacing:3px;text-transform:uppercase;
+      color:rgba(255,255,255,0.6);margin-bottom:18px;
+    }
+    .hero-dot{width:5px;height:5px;border-radius:50%;background:var(--ocean-lt);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.5)}}
+    .hero h1{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(64px,10vw,130px);
+      font-weight:300;color:#fff;
+      line-height:0.9;letter-spacing:-2px;
+      margin-bottom:28px;
+    }
+    .hero h1 em{font-style:italic;color:var(--ocean-lt)}
+    .hero-row{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap}
+    .hero-sub{
+      font-size:16px;font-weight:300;
+      color:rgba(255,255,255,0.65);
+      line-height:1.7;max-width:380px;
+    }
+    .hero-actions{display:flex;gap:14px;align-items:center;flex-shrink:0}
+    .btn-hero-solid{
+      font-size:14px;font-weight:500;padding:14px 30px;
+      border-radius:50px;background:var(--ocean);color:#fff;
+      border:none;cursor:pointer;text-decoration:none;
+      box-shadow:0 0 28px rgba(11,126,168,0.5);
+      transition:background 0.2s,transform 0.15s,box-shadow 0.2s;
+    }
+    .btn-hero-solid:hover{background:var(--ocean-lt);transform:translateY(-2px);box-shadow:0 0 40px rgba(94,196,232,0.6)}
+    .btn-hero-outline{
+      font-size:14px;font-weight:400;padding:13px 28px;
+      border-radius:50px;background:transparent;
+      border:1px solid rgba(255,255,255,0.35);color:rgba(255,255,255,0.85);
+      cursor:pointer;text-decoration:none;
+      transition:background 0.2s,border-color 0.2s,transform 0.15s;
+    }
+    .btn-hero-outline:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.6);transform:translateY(-2px)}
+
+    /* Slide dots */
+    .hero-dots{
+      position:absolute;bottom:32px;left:50%;
+      transform:translateX(-50%);
+      z-index:3;display:flex;gap:8px;
+    }
+    .hdot{
+      width:28px;height:3px;border-radius:2px;
+      background:rgba(255,255,255,0.25);cursor:pointer;
+      transition:background 0.3s,width 0.3s;
+    }
+    .hdot.active{background:var(--ocean-lt);width:44px}
+
+    /* Slide counter */
+    .hero-counter{
+      position:absolute;top:50%;right:40px;
+      transform:translateY(-50%);z-index:3;
+      font-family:'Cormorant Garamond',serif;
+      font-size:13px;color:rgba(255,255,255,0.35);
+      writing-mode:vertical-rl;letter-spacing:2px;
+    }
+    .hero-counter span{color:rgba(255,255,255,0.7)}
+
+    /* Scroll arrow */
+    .scroll-arrow{
+      position:absolute;bottom:36px;right:80px;z-index:3;
+      width:44px;height:44px;border-radius:50%;
+      border:1px solid rgba(255,255,255,0.25);
+      display:flex;align-items:center;justify-content:center;
+      color:rgba(255,255,255,0.5);font-size:18px;
+      animation:bounce 2.5s ease-in-out infinite;
+      cursor:pointer;text-decoration:none;
+    }
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+    /* ── MARQUEE ── */
+    .marquee{
+      background:var(--ocean-dk);overflow:hidden;
+      padding:16px 0;
+    }
+    .marquee-track{
+      display:flex;animation:marquee 24s linear infinite;
+      white-space:nowrap;
+    }
+    @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .marquee-item{
+      font-family:'Cormorant Garamond',serif;
+      font-size:17px;font-weight:300;font-style:italic;
+      color:rgba(255,255,255,0.75);padding:0 36px;
+    }
+    .marquee-sep{color:var(--ocean-lt);opacity:0.5}
+
+    /* ── INTRO SECTION ── */
+    .intro{
+      padding:110px 80px;
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:80px;align-items:center;
+      background:var(--night);
+    }
+    .intro-left{}
+    .intro-label{
+      font-size:11px;letter-spacing:3px;text-transform:uppercase;
+      color:var(--ocean-lt);margin-bottom:16px;
+    }
+    .intro-title{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(40px,5vw,62px);
+      font-weight:300;color:#fff;
+      line-height:1.08;margin-bottom:24px;
+    }
+    .intro-title em{font-style:italic;color:var(--ocean-lt)}
+    .intro-text{
+      font-size:16px;font-weight:300;
+      color:rgba(255,255,255,0.6);
+      line-height:1.85;margin-bottom:36px;
+    }
+    .intro-link{
+      display:inline-flex;align-items:center;gap:10px;
+      font-size:13px;letter-spacing:1.5px;text-transform:uppercase;
+      color:var(--ocean-lt);text-decoration:none;
+      border-bottom:1px solid rgba(94,196,232,0.4);
+      padding-bottom:3px;transition:gap 0.2s,border-color 0.2s;
+    }
+    .intro-link:hover{gap:16px;border-color:var(--ocean-lt)}
+    .intro-right{
+      display:grid;grid-template-columns:1fr 1fr;
+      grid-template-rows:1fr 1fr;
+      gap:12px;height:480px;
+    }
+    .intro-img{
+      border-radius:16px;overflow:hidden;
+      background-size:cover;background-position:center;
+      transition:transform 0.5s ease;
+    }
+    .intro-img:hover{transform:scale(1.03)}
+    .intro-img:nth-child(1){grid-row:span 2}
+    /* Intro side images — San Andres, Medellin, Colombia nature */
+    .ii-1{background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&q=85&fit=crop') center/cover}
+    .ii-2{background:url('https://images.unsplash.com/photo-1558642084-fd07fae5282e?w=900&q=85&fit=crop') center/cover}
+    .ii-3{background:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=900&q=85&fit=crop') center/cover}
+
+    /* ── FULLWIDTH PHOTO BREAK ── */
+    .photo-break{
+      height:70vh;
+      background:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1800&q=85&fit=crop') center/cover fixed no-repeat;
+      position:relative;display:flex;align-items:center;justify-content:center;
+    }
+    .photo-break::before{
+      content:'';position:absolute;inset:0;
+      background:rgba(8,21,30,0.45);
+    }
+    .photo-break-content{
+      position:relative;z-index:1;text-align:center;
+    }
+    .photo-break-content p{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(36px,6vw,80px);
+      font-weight:300;font-style:italic;
+      color:#fff;letter-spacing:-1px;
+      text-shadow:0 2px 30px rgba(0,0,0,0.3);
+    }
+    .photo-break-content span{color:var(--ocean-lt)}
+
+    /* ── GALLERY MOSAIC ── */
+    .gallery{background:var(--cream);padding:100px 60px}
+    .gallery-header{text-align:center;margin-bottom:56px}
+    .gallery-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--ocean);margin-bottom:12px}
+    .gallery-title{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(38px,5vw,58px);
+      font-weight:300;color:var(--text);
+    }
+    .gallery-title em{font-style:italic;color:var(--ocean)}
+    .mosaic{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      grid-template-rows:240px 240px;
+      gap:10px;
+    }
+    .m-item{
+      border-radius:14px;overflow:hidden;position:relative;cursor:pointer;
+      background-size:cover;background-position:center;
+    }
+    .m-item:nth-child(1){grid-column:1/5;grid-row:1/3}
+    .m-item:nth-child(2){grid-column:5/8}
+    .m-item:nth-child(3){grid-column:8/13}
+    .m-item:nth-child(4){grid-column:5/9;grid-row:2/3}
+    .m-item:nth-child(5){grid-column:9/13;grid-row:2/3}
+    /* Mosaic — mixed Colombia: beaches, Guatape, Cartagena, nature, Medellin */
+    .m1{background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1000&q=85&fit=crop') center/cover}
+    .m2{background:url('https://images.unsplash.com/photo-1558642084-fd07fae5282e?w=800&q=85&fit=crop') center/cover}
+    .m3{background:url('https://images.unsplash.com/photo-1536526399863-b5afc7e36c82?w=1000&q=85&fit=crop') center/cover}
+    .m4{background:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=900&q=85&fit=crop') center/cover}
+    .m5{background:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=85&fit=crop') center/cover}
+    .m-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(to top,rgba(8,21,30,0.65) 0%,transparent 55%);
+      opacity:0;transition:opacity 0.35s;
+    }
+    .m-item:hover .m-overlay{opacity:1}
+    .m-label{
+      position:absolute;bottom:16px;left:16px;
+      font-family:'Cormorant Garamond',serif;
+      font-size:20px;font-weight:300;color:#fff;
+      opacity:0;transform:translateY(8px);
+      transition:opacity 0.35s,transform 0.35s;
+    }
+    .m-item:hover .m-label{opacity:1;transform:translateY(0)}
+    .gallery-cta{text-align:center;margin-top:40px}
+
+    /* ── CITIES ── */
+    .cities{padding:100px 60px;background:var(--sand)}
+    .cities-header{margin-bottom:56px}
+    .cities-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--ocean);margin-bottom:12px}
+    .cities-title{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(38px,5vw,58px);
+      font-weight:300;color:var(--text);line-height:1.05;
+    }
+    .cities-title em{font-style:italic;color:var(--coral)}
+    .cities-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .city-block{position:relative;border-radius:20px;overflow:hidden;cursor:pointer}
+    .city-img{
+      width:100%;height:420px;
+      background-size:cover;background-position:center;
+      transition:transform 0.6s ease;
+      display:block;
+    }
+    .city-block:hover .city-img{transform:scale(1.05)}
+    .city-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(to top,rgba(8,21,30,0.82) 0%,rgba(8,21,30,0.1) 55%,transparent 100%);
+      transition:background 0.3s;
+    }
+    .city-block:hover .city-overlay{background:linear-gradient(to top,rgba(8,21,30,0.9) 0%,rgba(8,21,30,0.2) 55%,transparent 100%)}
+    .city-info{position:absolute;bottom:0;left:0;right:0;padding:28px 30px}
+    .city-tag{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:6px}
+    .city-name{
+      font-family:'Cormorant Garamond',serif;
+      font-size:36px;font-weight:300;color:#fff;
+      line-height:1;margin-bottom:8px;
+    }
+    .city-desc{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:14px;max-width:300px}
+    .city-link{
+      font-size:12px;letter-spacing:1.5px;text-transform:uppercase;
+      color:var(--ocean-lt);text-decoration:none;
+      display:inline-flex;align-items:center;gap:6px;
+      opacity:0;transform:translateY(6px);
+      transition:opacity 0.3s,transform 0.3s,gap 0.2s;
+    }
+    .city-block:hover .city-link{opacity:1;transform:translateY(0)}
+    .city-link:hover{gap:10px}
+
+    /* ── PACKAGES ── */
+    .packages{padding:100px 60px;background:var(--night)}
+    .pkg-header{text-align:center;margin-bottom:64px}
+    .pkg-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--ocean-lt);margin-bottom:12px}
+    .pkg-title{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(38px,5vw,58px);
+      font-weight:300;color:#fff;
+    }
+    .pkg-title em{font-style:italic;color:var(--ocean-lt)}
+    .pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;border-radius:20px;overflow:hidden}
+    .pkg-card{
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.06);
+      padding:48px 36px;
+      position:relative;overflow:hidden;
+      transition:background 0.3s;
+      cursor:pointer;
+    }
+    .pkg-card::before{
+      content:'';position:absolute;
+      top:0;left:0;right:0;height:2px;
+      background:var(--ocean-lt);
+      transform:scaleX(0);transform-origin:left;
+      transition:transform 0.4s ease;
+    }
+    .pkg-card:hover::before{transform:scaleX(1)}
+    .pkg-card:hover{background:rgba(94,196,232,0.06)}
+    .pkg-card.featured{
+      background:rgba(11,126,168,0.15);
+      border-color:rgba(94,196,232,0.2);
+    }
+    .pkg-card.featured::before{transform:scaleX(1)}
+    .pkg-popular{
+      font-size:10px;letter-spacing:2px;text-transform:uppercase;
+      color:var(--ocean-lt);background:rgba(94,196,232,0.12);
+      border:1px solid rgba(94,196,232,0.2);
+      padding:4px 12px;border-radius:20px;
+      display:inline-block;margin-bottom:20px;
+    }
+    .pkg-num{
+      font-family:'Cormorant Garamond',serif;
+      font-size:12px;letter-spacing:2px;
+      color:rgba(255,255,255,0.2);margin-bottom:16px;
+    }
+    .pkg-name{
+      font-family:'Cormorant Garamond',serif;
+      font-size:30px;font-weight:600;color:#fff;
+      margin-bottom:6px;
+    }
+    .pkg-price{
+      font-family:'Cormorant Garamond',serif;
+      font-size:56px;font-weight:300;color:#fff;
+      line-height:1;margin-bottom:4px;
+    }
+    .pkg-price sup{font-size:24px;vertical-align:super}
+    .pkg-once{font-size:12px;color:rgba(255,255,255,0.35);margin-bottom:28px}
+    .pkg-divider{height:1px;background:rgba(255,255,255,0.07);margin-bottom:24px}
+    .pkg-features{list-style:none;margin-bottom:32px}
+    .pkg-features li{
+      font-size:14px;color:rgba(255,255,255,0.55);
+      padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);
+      display:flex;gap:10px;align-items:flex-start;
+    }
+    .pkg-features li:last-child{border-bottom:none}
+    .pf-icon{color:var(--ocean-lt);flex-shrink:0;font-size:12px;margin-top:2px}
+    .pkg-cta{
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:13px;letter-spacing:1px;text-transform:uppercase;
+      color:var(--ocean-lt);text-decoration:none;
+      transition:gap 0.2s;
+    }
+    .pkg-cta:hover{gap:14px}
+
+    /* ── HEALTHCARE STRIP ── */
+    .hc-strip{
+      padding:90px 80px;
+      background:linear-gradient(135deg,var(--ocean-dk) 0%,var(--ocean) 100%);
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:80px;align-items:center;
+    }
+    .hc-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:14px}
+    .hc-title{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(36px,4vw,52px);
+      font-weight:300;color:#fff;
+      line-height:1.1;margin-bottom:18px;
+    }
+    .hc-title em{font-style:italic;color:rgba(255,255,255,0.8)}
+    .hc-text{font-size:15px;color:rgba(255,255,255,0.65);line-height:1.8;margin-bottom:24px;font-weight:300}
+    .hc-disclaimer{font-size:11px;color:rgba(255,255,255,0.35);font-style:italic;line-height:1.6;margin-top:16px}
+    .btn-white{
+      font-size:13px;font-weight:500;
+      padding:13px 28px;border-radius:50px;
+      background:#fff;color:var(--ocean-dk);
+      text-decoration:none;border:none;cursor:pointer;
+      transition:background 0.2s,transform 0.15s;display:inline-block;
+    }
+    .btn-white:hover{background:var(--sand);transform:translateY(-2px)}
+    .hc-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .hc-card{
+      background:rgba(255,255,255,0.1);
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:16px;padding:22px;
+      backdrop-filter:blur(8px);
+      transition:background 0.2s,transform 0.2s;
+    }
+    .hc-card:hover{background:rgba(255,255,255,0.16);transform:translateY(-3px)}
+    .hc-card-icon{font-size:26px;margin-bottom:10px}
+    .hc-card-name{font-size:14px;font-weight:500;color:#fff;margin-bottom:4px}
+    .hc-card-note{font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5}
+
+    /* ── FOOTER ── */
+    footer{background:var(--night);padding:72px 80px 36px;border-top:1px solid rgba(255,255,255,0.05)}
+    .ft-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:56px}
+    .ft-logo{
+      font-family:'Cormorant Garamond',serif;
+      font-size:26px;font-weight:600;color:#fff;
+      text-decoration:none;display:block;margin-bottom:14px;
+    }
+    .ft-logo span{color:var(--ocean-lt);font-style:italic}
+    .ft-desc{font-size:14px;color:rgba(255,255,255,0.4);line-height:1.8;margin-bottom:22px;font-weight:300}
+    .ft-social{display:flex;gap:10px}
+    .ft-sb{
+      width:36px;height:36px;border-radius:50%;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      display:flex;align-items:center;justify-content:center;
+      font-size:14px;text-decoration:none;
+      transition:background 0.2s;
+    }
+    .ft-sb:hover{background:rgba(94,196,232,0.15)}
+    .ft-col-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:18px}
+    .ft-links{list-style:none}
+    .ft-links li{margin-bottom:12px}
+    .ft-links a{font-size:14px;color:rgba(255,255,255,0.4);text-decoration:none;font-weight:300;transition:color 0.2s}
+    .ft-links a:hover{color:#fff}
+    .ft-bottom{border-top:1px solid rgba(255,255,255,0.05);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:12px;color:rgba(255,255,255,0.25)}
+    .ft-disclaimer{font-size:11px;color:rgba(255,255,255,0.18);line-height:1.6;margin-top:14px;max-width:700px;font-style:italic}
+
+    /* Swap guide section (hidden from view) */
+    .swap-guide{display:none}
+
+    /* ── REVEAL ANIMATIONS ── */
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity 0.75s ease,transform 0.75s ease}
+    .reveal.left{transform:translateX(-32px)}
+    .reveal.right{transform:translateX(32px)}
+    .reveal.visible{opacity:1;transform:translate(0)}
+    .d1{transition-delay:0.1s}.d2{transition-delay:0.2s}.d3{transition-delay:0.3s}.d4{transition-delay:0.4s}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:960px){
+      nav{padding:0 20px}
+      .nav-links,.nav-btn{display:none}
+      .hero-content{padding:0 24px 60px}
+      .hero h1{font-size:54px;letter-spacing:-1px}
+      .intro,.hc-strip{padding:60px 24px;grid-template-columns:1fr}
+      .intro-right{height:300px;grid-template-columns:1fr 1fr}
+      .intro-img:nth-child(1){grid-row:auto}
+      .gallery,.packages,.cities{padding:60px 20px}
+      .cities-grid{grid-template-columns:1fr}
+      .city-img{height:300px}
+      .city-link{opacity:1;transform:translateY(0)}
+      .mosaic{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+      .m-item{grid-column:auto!important;grid-row:auto!important;height:200px}
+      .pkg-grid{grid-template-columns:1fr}
+      .ft-top{grid-template-columns:1fr 1fr;padding:0}
+      footer{padding:60px 24px 32px}
+    }
+    /* ── WEATHER STRIP ── */
+    .weather-strip{
+      background:var(--night);
+      border-bottom:1px solid rgba(255,255,255,0.06);
+      padding:0 60px;
+    }
+    .weather-inner{
+      display:flex;align-items:stretch;
+      justify-content:space-between;
+      max-width:1180px;margin:0 auto;
+    }
+    .weather-city{
+      flex:1;display:flex;align-items:center;gap:16px;
+      padding:18px 24px;
+      border-right:1px solid rgba(255,255,255,0.06);
+      transition:background 0.2s;
+    }
+    .weather-city:last-child{border-right:none}
+    .weather-city:hover{background:rgba(255,255,255,0.03)}
+    .weather-icon{font-size:28px;flex-shrink:0}
+    .weather-info{}
+    .weather-city-name{
+      font-size:11px;letter-spacing:2px;text-transform:uppercase;
+      color:rgba(255,255,255,0.4);margin-bottom:3px;
+    }
+    .weather-temp{
+      font-family:'Cormorant Garamond',serif;
+      font-size:24px;font-weight:300;color:#fff;
+      line-height:1;margin-bottom:2px;
+    }
+    .weather-desc{font-size:11px;color:rgba(255,255,255,0.4);text-transform:capitalize}
+    .weather-extra{
+      display:flex;gap:12px;margin-top:4px;
+    }
+    .weather-extra span{font-size:11px;color:rgba(255,255,255,0.3)}
+    .weather-label{
+      display:flex;align-items:center;gap:10px;
+      padding:18px 24px;border-right:1px solid rgba(255,255,255,0.06);
+      flex-shrink:0;
+    }
+    .weather-label-text{
+      font-size:11px;letter-spacing:2px;text-transform:uppercase;
+      color:rgba(255,255,255,0.25);
+    }
+    .weather-dot{
+      width:6px;height:6px;border-radius:50%;
+      background:var(--ocean-lt);
+      animation:pulse 2s infinite;
+    }
+    .weather-loading{
+      font-size:13px;color:rgba(255,255,255,0.3);
+      padding:18px 24px;
+    }
+
+    /* ── MORNING REPORT / NEWS ── */
+    .morning-report{
+      padding:90px 60px;
+      background:var(--night);
+      border-top:1px solid rgba(255,255,255,0.05);
+    }
+    .report-header{
+      display:flex;align-items:flex-start;justify-content:space-between;
+      margin-bottom:48px;flex-wrap:wrap;gap:24px;
+    }
+    .report-eyebrow{
+      display:flex;align-items:center;gap:10px;
+      font-size:11px;letter-spacing:3px;text-transform:uppercase;
+      color:var(--gold);margin-bottom:14px;
+    }
+    .report-live-dot{
+      width:7px;height:7px;border-radius:50%;
+      background:var(--gold);animation:pulse 2s infinite;
+    }
+    .report-title{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(36px,4vw,52px);
+      font-weight:300;color:#fff;line-height:1.05;
+    }
+    .report-title em{font-style:italic;color:var(--gold)}
+    .report-date{
+      font-size:13px;color:rgba(255,255,255,0.3);
+      margin-top:10px;
+    }
+    .report-filter{
+      display:flex;gap:8px;flex-wrap:wrap;padding-top:4px;
+    }
+    .report-filter-btn{
+      font-size:12px;padding:8px 18px;border-radius:50px;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.1);
+      color:rgba(255,255,255,0.5);cursor:pointer;
+      font-family:'DM Sans',sans-serif;
+      transition:all 0.2s;white-space:nowrap;
+    }
+    .report-filter-btn:hover{border-color:rgba(255,255,255,0.25);color:rgba(255,255,255,0.85)}
+    .report-filter-btn.active{
+      background:var(--gold);border-color:var(--gold);
+      color:var(--night);font-weight:500;
+    }
+    .report-grid{
+      display:grid;grid-template-columns:1.5fr 1fr;
+      gap:20px;
+    }
+    /* Featured news card */
+    .news-featured{
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:20px;overflow:hidden;
+      cursor:pointer;
+      transition:border-color 0.25s,transform 0.25s;
+    }
+    .news-featured:hover{border-color:rgba(212,168,67,0.3);transform:translateY(-3px)}
+    .news-featured-img{
+      height:260px;position:relative;overflow:hidden;
+    }
+    .news-feat-bg{
+      width:100%;height:100%;
+      display:flex;align-items:center;justify-content:center;
+      position:relative;
+    }
+    .news-feat-bg-inner{
+      position:absolute;inset:0;
+      background:url('https://images.unsplash.com/photo-1558642084-fd07fae5282e?w=900&q=80&fit=crop') center/cover no-repeat;
+    }
+    .news-feat-bg-inner::after{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(160deg,rgba(8,21,30,0.6) 0%,rgba(8,21,30,0.3) 100%);
+    }
+    .news-feat-headline{
+      position:relative;z-index:1;
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(22px,3vw,30px);
+      font-weight:300;color:#fff;
+      line-height:1.2;padding:28px;
+      text-shadow:0 2px 12px rgba(0,0,0,0.5);
+      align-self:flex-end;width:100%;
+    }
+    .news-cat-badge{
+      position:absolute;top:16px;left:16px;z-index:2;
+      font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+      padding:5px 14px;border-radius:20px;
+    }
+    .cat-events{background:rgba(212,168,67,0.9);color:var(--night)}
+    .cat-safety{background:rgba(231,111,81,0.9);color:#fff}
+    .cat-advisory{background:rgba(123,108,246,0.9);color:#fff}
+    .cat-weather{background:rgba(11,126,168,0.9);color:#fff}
+    .cat-news{background:rgba(76,175,125,0.9);color:#fff}
+    .news-featured-body{padding:22px 24px 24px}
+    .news-featured-title{
+      font-family:'Cormorant Garamond',serif;
+      font-size:20px;font-weight:600;color:#fff;
+      line-height:1.35;margin-bottom:10px;
+    }
+    .news-featured-summary{
+      font-size:14px;color:rgba(255,255,255,0.6);
+      line-height:1.75;margin-bottom:16px;
+    }
+    .news-meta{
+      display:flex;align-items:center;justify-content:space-between;
+      flex-wrap:wrap;gap:8px;
+    }
+    .news-meta-date{font-size:12px;color:rgba(255,255,255,0.3)}
+    .news-read-more{
+      font-size:12px;font-weight:500;color:var(--gold);text-decoration:none;
+      display:inline-flex;align-items:center;gap:5px;
+      transition:gap 0.2s;
+    }
+    .news-read-more:hover{gap:9px}
+    /* News cards list */
+    .news-list{display:flex;flex-direction:column;gap:10px}
+    .news-card{
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.07);
+      border-radius:14px;padding:16px 18px;
+      cursor:pointer;transition:border-color 0.2s,background 0.2s,transform 0.2s;
+      display:flex;gap:14px;align-items:stretch;
+    }
+    .news-card:hover{
+      border-color:rgba(255,255,255,0.14);
+      background:rgba(255,255,255,0.06);
+      transform:translateX(4px);
+    }
+    .news-card-cat{
+      flex-shrink:0;width:3px;border-radius:2px;
+      align-self:stretch;
+    }
+    .nc-gold{background:var(--gold)}
+    .nc-coral{background:#E76F51}
+    .nc-purple{background:#7B6CF6}
+    .nc-ocean{background:var(--ocean-lt)}
+    .nc-green{background:#4CAF7D}
+    .news-card-body{flex:1;min-width:0}
+    .news-card-tag{
+      font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+      margin-bottom:5px;font-weight:500;
+    }
+    .news-card-title{
+      font-size:14px;font-weight:500;color:#fff;
+      line-height:1.4;margin-bottom:4px;
+    }
+    .news-card-summary{
+      font-size:12px;color:rgba(255,255,255,0.45);
+      line-height:1.55;margin-bottom:7px;
+    }
+    .news-card-meta{font-size:11px;color:rgba(255,255,255,0.25)}
+    .report-footer{text-align:center;margin-top:36px;padding-top:28px;border-top:1px solid rgba(255,255,255,0.06)}
+    .report-note{font-size:12px;color:rgba(255,255,255,0.25);font-style:italic;line-height:1.7}
+
+    @media(max-width:900px){
+      .weather-strip{padding:0 20px}
+      .weather-inner{flex-direction:column}
+      .weather-city{border-right:none;border-bottom:1px solid rgba(255,255,255,0.06)}
+      .weather-label{border-right:none;border-bottom:1px solid rgba(255,255,255,0.06)}
+      .morning-report{padding:60px 20px}
+      .report-grid{grid-template-columns:1fr}
+      .report-header{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── LOADER ── -->
+  <div id="loader">
+    <div class="loader-logo">Colombia <span>Trips</span></div>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+  </div>
+
+  <!-- ── CURSOR ── -->
+  <div id="cursorGlow"></div>
+
+  <!-- ── NAV ── -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">Colombia <span>Trips</span></a>
+    <ul class="nav-links">
+      <li><a href="#gallery">San Andrés</a></li>
+      <li><a href="#news">Morning Report</a></li>
+      <li><a href="#destinations">Destinations</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#healthcare">Healthcare</a></li>
+      <li><a href="#contact">Support</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="nav-login">Log In</a>
+      <a href="#packages" class="nav-btn">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero" id="home">
+    <div class="hero-slides">
+      <div class="hero-slide sl-1 active"></div>
+      <div class="hero-slide sl-2"></div>
+      <div class="hero-slide sl-3"></div>
+      <div class="hero-slide sl-4"></div>
+    </div>
+    <div class="hero-dots" id="heroDots">
+      <div class="hdot active" onclick="goSlide(0)"></div>
+      <div class="hdot" onclick="goSlide(1)"></div>
+      <div class="hdot" onclick="goSlide(2)"></div>
+      <div class="hdot" onclick="goSlide(3)"></div>
+    </div>
+    <div class="hero-counter">
+      <span id="slideNum">01</span> / 04
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="hero-dot"></div>
+        Colombia, South America — All of Colombia
+      </div>
+      <h1 id="heroH1">The <em>Sea of<br>Seven Colors</em></h1>
+      <div class="hero-row">
+        <p class="hero-sub">One platform. Endless experiences. From Caribbean islands to hidden mountains — all of Colombia, backed by real local connections.</p>
+        <div class="hero-actions">
+          <a href="#packages" class="btn-hero-solid">Explore Packages</a>
+          <a href="#destinations" class="btn-hero-outline">See Destinations</a>
+        </div>
+      </div>
+    </div>
+    <a href="#intro" class="scroll-arrow">↓</a>
+  </section>
+
+  <!-- ── MARQUEE ── -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <span class="marquee-item">San Andrés <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Medellín / Guatapé <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Cartagena <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Hot Spot 1 <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Hot Spot 2 <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">San Andrés <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Medellín / Guatapé <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Cartagena <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Hot Spot 1 <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Hot Spot 2 <span class="marquee-sep">✦</span></span>
+    </div>
+  </div>
+
+  <!-- ── WEATHER STRIP ── -->
+  <div class="weather-strip" id="weatherStrip">
+    <div class="weather-inner">
+      <div class="weather-label">
+        <div class="weather-dot"></div>
+        <div class="weather-label-text">Live Weather</div>
+      </div>
+      <div class="weather-city" id="weather-sanandres">
+        <div class="weather-icon" id="icon-sanandres">🌤</div>
+        <div class="weather-info">
+          <div class="weather-city-name">San Andrés</div>
+          <div class="weather-temp" id="temp-sanandres">--°F</div>
+          <div class="weather-desc" id="desc-sanandres">Loading...</div>
+          <div class="weather-extra">
+            <span id="humidity-sanandres">💧 --%</span>
+            <span id="wind-sanandres">💨 -- mph</span>
+          </div>
+        </div>
+      </div>
+      <div class="weather-city" id="weather-medellin">
+        <div class="weather-icon" id="icon-medellin">🌤</div>
+        <div class="weather-info">
+          <div class="weather-city-name">Medellín</div>
+          <div class="weather-temp" id="temp-medellin">--°F</div>
+          <div class="weather-desc" id="desc-medellin">Loading...</div>
+          <div class="weather-extra">
+            <span id="humidity-medellin">💧 --%</span>
+            <span id="wind-medellin">💨 -- mph</span>
+          </div>
+        </div>
+      </div>
+      <div class="weather-city" id="weather-cartagena">
+        <div class="weather-icon" id="icon-cartagena">🌤</div>
+        <div class="weather-info">
+          <div class="weather-city-name">Cartagena</div>
+          <div class="weather-temp" id="temp-cartagena">--°F</div>
+          <div class="weather-desc" id="desc-cartagena">Loading...</div>
+          <div class="weather-extra">
+            <span id="humidity-cartagena">💧 --%</span>
+            <span id="wind-cartagena">💨 -- mph</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── INTRO ── -->
+  <section class="intro" id="intro">
+    <div class="intro-left">
+      <div class="intro-label reveal">All of Colombia</div>
+      <h2 class="intro-title reveal">One platform.<br><em>Endless<br>experiences.</em></h2>
+      <p class="intro-text reveal">From the turquoise Caribbean waters of San Andrés to the electric skyline of Medellín, the colorful streets of Cartagena, and hidden hot spots most tourists never find — Colombia Trips Co. gives you access to all of it. Backed by our partner Chris's years of on-the-ground experience, real local relationships, and a network built one handshake at a time.</p>
+      <a href="#packages" class="intro-link reveal">View our packages →</a>
+    </div>
+    <div class="intro-right reveal right">
+      <div class="intro-img ii-1"></div>
+      <div class="intro-img ii-2"></div>
+      <div class="intro-img ii-3"></div>
+    </div>
+  </section>
+
+  <!-- ── FULL WIDTH PHOTO BREAK ── -->
+  <div class="photo-break">
+    <div class="photo-break-content reveal">
+      <p>"Colombia — a country that <span>surprises you</span> every single time"</p>
+    </div>
+  </div>
+
+  <!-- ── GALLERY ── -->
+  <section class="gallery" id="gallery">
+    <div class="gallery-header reveal">
+      <div class="gallery-label">Colombia in every frame</div>
+      <h2 class="gallery-title">One country. <em>Infinite beauty.</em></h2>
+    </div>
+    <div class="mosaic">
+      <div class="m-item m1 reveal d1">
+        <div class="m-overlay"></div>
+        <div class="m-label">San Andrés</div>
+      </div>
+      <div class="m-item m2 reveal d2">
+        <div class="m-overlay"></div>
+        <div class="m-label">Guatapé</div>
+      </div>
+      <div class="m-item m3 reveal d3">
+        <div class="m-overlay"></div>
+        <div class="m-label">Cartagena</div>
+      </div>
+      <div class="m-item m4 reveal d2">
+        <div class="m-overlay"></div>
+        <div class="m-label">Colombian Jungle</div>
+      </div>
+      <div class="m-item m5 reveal d3">
+        <div class="m-overlay"></div>
+        <div class="m-label">Hidden Colombia</div>
+      </div>
+    </div>
+    <div class="gallery-cta reveal" style="margin-top:40px">
+      <a href="#packages" class="btn-hero-solid" style="font-size:14px;padding:14px 32px;border-radius:50px;background:var(--ocean);color:#fff;text-decoration:none;box-shadow:0 0 24px rgba(11,126,168,0.35);display:inline-block;">Get Your Package →</a>
+    </div>
+  </section>
+
+  <!-- ── MORNING REPORT ── -->
+  <section class="morning-report" id="news">
+    <div class="report-header">
+      <div class="report-header-left">
+        <div class="report-eyebrow">
+          <div class="report-live-dot"></div>
+          Colombia Trips Co. — Morning Report
+        </div>
+        <h2 class="report-title">Stay informed.<br><em>Travel smarter.</em></h2>
+        <div class="report-date" id="reportDate">Today's briefing — loading...</div>
+      </div>
+      <div class="report-filter">
+        <button class="report-filter-btn active" onclick="filterNews('all',this)">All</button>
+        <button class="report-filter-btn" onclick="filterNews('news',this)">🌎 Events</button>
+        <button class="report-filter-btn" onclick="filterNews('safety',this)">🛡 Safety</button>
+        <button class="report-filter-btn" onclick="filterNews('advisory',this)">⚠️ Advisory</button>
+        <button class="report-filter-btn" onclick="filterNews('weather',this)">🌤 Weather</button>
+      </div>
+    </div>
+
+    <div class="report-grid">
+
+      <!-- FEATURED STORY -->
+      <div class="news-featured reveal" data-cat="news">
+        <div class="news-featured-img">
+          <div class="news-feat-bg">
+            <div class="news-feat-bg-inner"></div>
+            <div class="news-cat-badge cat-news">Current Events</div>
+            <div class="news-feat-headline">Colombia's Tourism Sector Sees Record Growth as American Visitors Surge in 2026</div>
+          </div>
+        </div>
+        <div class="news-featured-body">
+          <div class="news-featured-summary">Colombia continues to emerge as one of Latin America's top travel destinations, with American tourism up significantly year over year. Improved infrastructure, expanded flight routes, and growing awareness of Colombia's diverse offerings are driving the trend — making this one of the best times in history to visit.</div>
+          <div class="news-meta">
+            <span class="news-meta-date" id="featuredDate">May 28, 2026 · Colombia Trips Co. Morning Report</span>
+            <a href="#" class="news-read-more">Full story →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEWS CARDS -->
+      <div class="news-list">
+
+        <div class="news-card reveal d1" data-cat="safety">
+          <div class="news-card-cat nc-coral"></div>
+          <div class="news-card-body">
+            <div class="news-card-tag" style="color:#E76F51">🛡 Safety Update</div>
+            <div class="news-card-title">Cartagena Old City — Tourism Zone Remains Safe for Visitors</div>
+            <div class="news-card-summary">The walled city and major tourist areas continue to be well-patrolled. Standard precautions apply after dark in non-tourist zones.</div>
+            <div class="news-card-meta">May 28, 2026 · Colombia Trips Co.</div>
+          </div>
+        </div>
+
+        <div class="news-card reveal d2" data-cat="weather">
+          <div class="news-card-cat nc-ocean"></div>
+          <div class="news-card-body">
+            <div class="news-card-tag" style="color:var(--ocean-lt)">🌤 Weather & Climate</div>
+            <div class="news-card-title">San Andrés — Dry Season Brings Peak Diving Conditions</div>
+            <div class="news-card-summary">Visibility in the Sea of Seven Colors is at its annual peak. Water temps ideal, winds calm through June. Perfect time to visit.</div>
+            <div class="news-card-meta">May 28, 2026 · Colombia Trips Co.</div>
+          </div>
+        </div>
+
+        <div class="news-card reveal d3" data-cat="news">
+          <div class="news-card-cat nc-gold"></div>
+          <div class="news-card-body">
+            <div class="news-card-tag" style="color:var(--gold)">🎭 Local Events</div>
+            <div class="news-card-title">Medellín Flower Festival 2026 — August Dates Announced</div>
+            <div class="news-card-summary">The famous Feria de las Flores returns this August — one of Colombia's most celebrated cultural events. Book accommodations early.</div>
+            <div class="news-card-meta">May 27, 2026 · Colombia Trips Co.</div>
+          </div>
+        </div>
+
+        <div class="news-card reveal" data-cat="advisory">
+          <div class="news-card-cat nc-purple"></div>
+          <div class="news-card-body">
+            <div class="news-card-tag" style="color:#A99DF8">⚠️ Travel Advisory</div>
+            <div class="news-card-title">U.S. State Dept. Level 2 — Exercise Increased Caution</div>
+            <div class="news-card-summary">Major destinations including Cartagena, Medellín, and San Andrés remain accessible and popular for Americans with proper preparation.</div>
+            <div class="news-card-meta">May 26, 2026 · U.S. State Department</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="report-footer reveal">
+      <p class="report-note">The Colombia Trips Co. Morning Report is curated for American travelers. Always verify travel advisories at travel.state.gov before your trip.</p>
+    </div>
+  </section>
+
+  <!-- ── CITIES / DESTINATIONS ── -->
+  <section class="cities" id="destinations">
+    <div class="cities-header reveal">
+      <div class="cities-label">Explore Colombia</div>
+      <h2 class="cities-title">All of Colombia —<br><em>at your fingertips</em></h2>
+    </div>
+    <div class="cities-grid">
+
+      <!-- San Andres -->
+      <div class="city-block reveal d1">
+        <div class="city-img" style="background:url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200&q=85&fit=crop') center/cover"></div>
+        <div class="city-overlay"></div>
+        <div class="city-info">
+          <div class="city-tag">Beach · Caribbean Island</div>
+          <div class="city-name">San Andrés</div>
+          <div class="city-desc">The Sea of Seven Colors — crystal turquoise water, white sand, world-class diving and island life like nowhere else.</div>
+          <a href="#" class="city-link">Explore San Andrés →</a>
+        </div>
+      </div>
+
+      <!-- Medellin / Guatape -->
+      <div class="city-block reveal d2">
+        <div class="city-img" style="background:url('https://images.unsplash.com/photo-1558642084-fd07fae5282e?w=1200&q=85&fit=crop') center/cover"></div>
+        <div class="city-overlay"></div>
+        <div class="city-info">
+          <div class="city-tag">City · Nightlife · Nature</div>
+          <div class="city-name">Medellín & Guatapé</div>
+          <div class="city-desc">The City of Eternal Spring meets El Peñol — stunning skyline, world-class nightlife, and one of the most iconic views in South America.</div>
+          <a href="#" class="city-link">Explore Medellín →</a>
+        </div>
+      </div>
+
+      <!-- Cartagena -->
+      <div class="city-block reveal d1">
+        <div class="city-img" style="background:url('https://images.unsplash.com/photo-1536526399863-b5afc7e36c82?w=1200&q=85&fit=crop') center/cover"></div>
+        <div class="city-overlay"></div>
+        <div class="city-info">
+          <div class="city-tag">Historic · Coastal · Iconic</div>
+          <div class="city-name">Cartagena</div>
+          <div class="city-desc">A walled Caribbean city frozen in color and history — cobblestone streets, vibrant architecture, and ocean views at every turn.</div>
+          <a href="#" class="city-link">Explore Cartagena →</a>
+        </div>
+      </div>
+
+      <!-- Hot Spot 1 -->
+      <div class="city-block reveal d2">
+        <div class="city-img" style="background:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=85&fit=crop') center/cover"></div>
+        <div class="city-overlay"></div>
+        <div class="city-info">
+          <div class="city-tag">Secret · Nature · Off the Beaten Path</div>
+          <div class="city-name">Hot Spot 1</div>
+          <div class="city-desc">A hidden gem most tourists never find. Chris knows exactly where to take you — and it will blow your mind.</div>
+          <a href="#" class="city-link">Coming Soon →</a>
+        </div>
+      </div>
+
+      <!-- Hot Spot 2 -->
+      <div class="city-block reveal d3">
+        <div class="city-img" style="background:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=85&fit=crop') center/cover"></div>
+        <div class="city-overlay"></div>
+        <div class="city-info">
+          <div class="city-tag">Secret · Adventure · Exclusive</div>
+          <div class="city-name">Hot Spot 2</div>
+          <div class="city-desc">Another side of Colombia that only locals know. Our network unlocks places no travel app will ever show you.</div>
+          <a href="#" class="city-link">Coming Soon →</a>
+        </div>
+      </div>
+
+      <!-- Bogota -->
+      <div class="city-block reveal d3">
+        <div class="city-img" style="background:url('https://images.unsplash.com/photo-1526392060635-9d6019884377?w=1200&q=85&fit=crop') center/cover"></div>
+        <div class="city-overlay"></div>
+        <div class="city-info">
+          <div class="city-tag">Capital · Culture · Food</div>
+          <div class="city-name">Bogotá</div>
+          <div class="city-desc">Art, history, gastronomy, and the dramatic Andes backdrop — Colombia's vibrant capital has more layers than you'd expect.</div>
+          <a href="#" class="city-link">Explore Bogotá →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── PACKAGES ── -->
+  <section class="packages" id="packages">
+    <div class="pkg-header reveal">
+      <div class="pkg-label">One-time fee · Lifetime access</div>
+      <h2 class="pkg-title">Your Colombia <em>experience</em> starts here</h2>
+    </div>
+    <div class="pkg-grid">
+
+      <div class="pkg-card reveal d1">
+        <div class="pkg-num">01</div>
+        <div class="pkg-name">Explorer</div>
+        <div class="pkg-price"><sup>$</sup>99</div>
+        <div class="pkg-once">One-time · Lifetime access</div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li><span class="pf-icon">✦</span>Website & app access</li>
+          <li><span class="pf-icon">✦</span>San Andrés destination guide</li>
+          <li><span class="pf-icon">✦</span>Hotel & restaurant recommendations</li>
+          <li><span class="pf-icon">✦</span>Travel tips & safety guidance</li>
+          <li><span class="pf-icon">✦</span>Basic support</li>
+        </ul>
+        <a href="#" class="pkg-cta">Get Explorer →</a>
+      </div>
+
+      <div class="pkg-card featured reveal d2">
+        <div class="pkg-popular">Most Popular</div>
+        <div class="pkg-num">02</div>
+        <div class="pkg-name">Adventure</div>
+        <div class="pkg-price"><sup>$</sup>199</div>
+        <div class="pkg-once">One-time · Lifetime access</div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li><span class="pf-icon">✦</span>Everything in Explorer</li>
+          <li><span class="pf-icon">✦</span>Exclusive partner deals</li>
+          <li><span class="pf-icon">✦</span>Healthcare directory access</li>
+          <li><span class="pf-icon">✦</span>Priority 24/7 support & AI chatbot</li>
+        </ul>
+        <a href="#" class="pkg-cta">Get Adventure →</a>
+      </div>
+
+      <div class="pkg-card reveal d3">
+        <div class="pkg-num">03</div>
+        <div class="pkg-name">Elite Concierge</div>
+        <div class="pkg-price"><sup>$</sup>299</div>
+        <div class="pkg-once">One-time · Lifetime access</div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li><span class="pf-icon">✦</span>Everything in Adventure</li>
+          <li><span class="pf-icon">✦</span>Personalized trip planning</li>
+          <li><span class="pf-icon">✦</span>Direct concierge access</li>
+          <li><span class="pf-icon">✦</span>Healthcare referral coordination</li>
+          <li><span class="pf-icon">✦</span>VIP partner introductions</li>
+        </ul>
+        <a href="#" class="pkg-cta">Get Elite →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── HEALTHCARE ── -->
+  <div class="hc-strip" id="healthcare">
+    <div>
+      <div class="hc-label reveal">Major Bonus Benefit</div>
+      <h2 class="hc-title reveal">Your health is in <em>good hands</em></h2>
+      <p class="hc-text reveal">Access our personally vetted network of doctors, clinics, dentists and specialists across Colombia. Real local relationships — not just a directory.</p>
+      <a href="#" class="btn-white reveal">Explore the Network</a>
+      <p class="hc-disclaimer reveal">All medical decisions should be made with a licensed healthcare professional. Colombia Trips Co. is not a medical provider.</p>
+    </div>
+    <div class="hc-cards reveal right">
+      <div class="hc-card"><div class="hc-card-icon">👨‍⚕️</div><div class="hc-card-name">Doctors & Physicians</div><div class="hc-card-note">Vetted general care & specialists</div></div>
+      <div class="hc-card"><div class="hc-card-icon">🦷</div><div class="hc-card-name">Dental Care</div><div class="hc-card-note">Quality work at a fraction of US cost</div></div>
+      <div class="hc-card"><div class="hc-card-icon">🏥</div><div class="hc-card-name">Hospitals & Clinics</div><div class="hc-card-note">International patient-friendly</div></div>
+      <div class="hc-card"><div class="hc-card-icon">✨</div><div class="hc-card-name">Cosmetic & Elective</div><div class="hc-card-note">Trusted providers for planned procedures</div></div>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer id="contact">
+    <div class="ft-top">
+      <div>
+        <a href="#" class="ft-logo">Colombia <span>Trips</span></a>
+        <p class="ft-desc">Your all-inclusive travel & concierge network for Americans exploring Colombia. Real connections. Real experiences. One fee.</p>
+        <div class="ft-social">
+          <a class="ft-sb" href="#">📷</a>
+          <a class="ft-sb" href="#">📘</a>
+          <a class="ft-sb" href="#">🎵</a>
+          <a class="ft-sb" href="#">▶</a>
+        </div>
+      </div>
+      <div>
+        <div class="ft-col-title">Explore</div>
+        <ul class="ft-links">
+          <li><a href="#">San Andrés</a></li>
+          <li><a href="#">Medellín & Guatapé</a></li>
+          <li><a href="#">Cartagena</a></li>
+          <li><a href="#">Hidden Hot Spots</a></li>
+          <li><a href="#">Healthcare Network</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="ft-col-title">Packages</div>
+        <ul class="ft-links">
+          <li><a href="#">Explorer — $99</a></li>
+          <li><a href="#">Adventure — $199</a></li>
+          <li><a href="#">Elite Concierge — $299</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="ft-col-title">Support</div>
+        <ul class="ft-links">
+          <li><a href="#">24/7 Support Line</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">About Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <span>© 2025 Colombia Trips Co. LLC · colombiatrips.com</span>
+      <span>Sanford, Florida, USA</span>
+    </div>
+    <p class="ft-disclaimer">Colombia Trips provides travel information, recommendations, and referrals as a concierge service. We do not guarantee personal safety during travel. Member discounts at healthcare providers vary and are not guaranteed. Colombia Trips LLC is not a licensed travel agency, medical provider, or insurance company.</p>
+  </footer>
+
+  <!-- ══════════════════════════════════════
+  HOW TO SWAP IN YOUR OWN SAN ANDRES PHOTOS
+  ══════════════════════════════════════════
+  1. Create a folder called "images" next to this HTML file
+  2. Save your San Andres photos with these names:
+     → images/san-andres-hero-1.jpg  (wide beach aerial or panorama)
+     → images/san-andres-hero-2.jpg  (water, boats, or shoreline)
+     → images/san-andres-hero-3.jpg  (beach with people or palms)
+     → images/san-andres-hero-4.jpg  (sunset or night)
+     → images/san-andres-intro.jpg   (tall portrait style, beach)
+     → images/san-andres-2.jpg       (square-ish, water detail)
+     → images/san-andres-3.jpg       (square-ish, aerial or crowd)
+     → images/san-andres-mosaic-1.jpg through mosaic-5.jpg
+  3. In the CSS, replace each Unsplash URL with your file path:
+     FROM: url('https://images.unsplash.com/photo-...?...')
+     TO:   url('images/san-andres-hero-1.jpg')
+  BEST SIZES:
+     Hero slides: 1800px wide minimum
+     Mosaic items: 800-1000px wide
+     Parallax photo-break: 1800px wide
+  ══════════════════════════════════════ -->
+
+  <script>
+    // ── Loader
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById('loader').classList.add('hide'), 1800);
+    });
+
+    // ── Cursor glow
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top  = e.clientY + 'px';
+    });
+
+    // ── Navbar
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // ── Hero slideshow
+    const slides   = document.querySelectorAll('.hero-slide');
+    const dots     = document.querySelectorAll('.hdot');
+    const slideNum = document.getElementById('slideNum');
+    const heroH1   = document.getElementById('heroH1');
+    const titles   = [
+      'The <em>Sea of<br>Seven Colors</em>',
+      'Medellín &amp;<br><em>Guatapé</em>',
+      'Colombia\'s<br><em>Hidden<br>Hot Spots</em>',
+      'Discover<br><em>Secret<br>Colombia</em>'
+    ];
+    let cur = 0, timer;
+    function goSlide(n) {
+      slides[cur].classList.remove('active');
+      dots[cur].classList.remove('active');
+      cur = n;
+      slides[cur].classList.add('active');
+      dots[cur].classList.add('active');
+      slideNum.textContent = String(cur + 1).padStart(2,'0');
+      heroH1.innerHTML = titles[cur];
+      clearInterval(timer);
+      timer = setInterval(() => goSlide((cur + 1) % slides.length), 5500);
+    }
+    timer = setInterval(() => goSlide((cur + 1) % slides.length), 5500);
+
+    // ── Scroll reveal
+    const revEls = document.querySelectorAll('.reveal');
+    const revObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    revEls.forEach(el => revObs.observe(el));
+    // ── Morning Report date
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+    const el = document.getElementById('reportDate');
+    if(el) el.textContent = "Today's briefing — " + dateStr;
+    const fd = document.getElementById('featuredDate');
+    if(fd) fd.textContent = now.toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' }) + ' · Colombia Trips Co. Morning Report';
+
+    // ── Weather — OpenWeatherMap free API
+    // TO ACTIVATE: Get a free API key at openweathermap.org/api
+    // Replace 'YOUR_API_KEY' below with your key
+    // Free tier allows 1,000 calls/day — more than enough
+    const OWM_KEY = 'YOUR_API_KEY';
+
+    const weatherIcons = {
+      '01d':'☀️','01n':'🌙','02d':'⛅','02n':'⛅',
+      '03d':'☁️','03n':'☁️','04d':'☁️','04n':'☁️',
+      '09d':'🌧','09n':'🌧','10d':'🌦','10n':'🌦',
+      '11d':'⛈','11n':'⛈','13d':'❄️','13n':'❄️',
+      '50d':'🌫','50n':'🌫'
+    };
+
+    const cities = [
+      { id:'sanandres', name:'San Andrés', lat:12.5847, lon:-81.7006 },
+      { id:'medellin', name:'Medellín', lat:6.2442, lon:-75.5812 },
+      { id:'cartagena', name:'Cartagena', lat:10.3910, lon:-75.4794 }
+    ];
+
+    async function fetchWeather() {
+      if(OWM_KEY === 'YOUR_API_KEY') {
+        // Show demo data when no API key is set
+        const demos = [
+          { id:'sanandres', temp:84, desc:'Partly cloudy', icon:'02d', humidity:78, wind:8 },
+          { id:'medellin', temp:72, desc:'Mostly sunny', icon:'01d', humidity:65, wind:5 },
+          { id:'cartagena', temp:88, desc:'Sunny and warm', icon:'01d', humidity:82, wind:12 }
+        ];
+        demos.forEach(d => updateWeatherUI(d.id, d.temp, d.desc, d.icon, d.humidity, d.wind));
+        return;
+      }
+      for(const city of cities) {
+        try {
+          const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&appid=${OWM_KEY}&units=imperial`);
+          const data = await res.json();
+          const temp = Math.round(data.main.temp);
+          const desc = data.weather[0].description;
+          const icon = data.weather[0].icon;
+          const humidity = data.main.humidity;
+          const wind = Math.round(data.wind.speed);
+          updateWeatherUI(city.id, temp, desc, icon, humidity, wind);
+        } catch(e) { console.log('Weather fetch error:', e); }
+      }
+    }
+
+    function updateWeatherUI(id, temp, desc, icon, humidity, wind) {
+      const iconEl = document.getElementById('icon-'+id);
+      const tempEl = document.getElementById('temp-'+id);
+      const descEl = document.getElementById('desc-'+id);
+      const humEl  = document.getElementById('humidity-'+id);
+      const windEl = document.getElementById('wind-'+id);
+      if(iconEl) iconEl.textContent = weatherIcons[icon] || '🌤';
+      if(tempEl) tempEl.textContent = temp + '°F';
+      if(descEl) descEl.textContent = desc;
+      if(humEl)  humEl.textContent  = '💧 ' + humidity + '%';
+      if(windEl) windEl.textContent = '💨 ' + wind + ' mph';
+    }
+
+    fetchWeather();
+    // Refresh weather every 30 minutes
+    setInterval(fetchWeather, 30 * 60 * 1000);
+
+    // ── News filter
+    function filterNews(cat, btn) {
+      document.querySelectorAll('.report-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('[data-cat]').forEach(card => {
+        card.style.display = (cat === 'all' || card.getAttribute('data-cat') === cat) ? '' : 'none';
+      });
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('[PWA] Service worker registered:', reg.scope))
+          .catch(err => console.log('[PWA] Service worker failed:', err));
+      });
+    }
+
+    // ── PWA: Install prompt (Add to Home Screen)
+    let deferredPrompt;
+    const installBanner = document.getElementById('installBanner');
+    const installBtn    = document.getElementById('installBtn');
+    const installClose  = document.getElementById('installClose');
+
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredPrompt = e;
+      // Show the install banner after 8 seconds
+      setTimeout(() => {
+        if (installBanner) installBanner.style.transform = 'translateY(0)';
+      }, 8000);
+    });
+
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log('[PWA] Install outcome:', outcome);
+        deferredPrompt = null;
+        if (installBanner) installBanner.style.transform = 'translateY(120%)';
+      });
+    }
+
+    if (installClose) {
+      installClose.addEventListener('click', () => {
+        if (installBanner) installBanner.style.transform = 'translateY(120%)';
+      });
+    }
+
+    // ── PWA: Hide install banner if already installed
+    window.addEventListener('appinstalled', () => {
+      console.log('[PWA] App installed successfully');
+      if (installBanner) installBanner.style.display = 'none';
+    });
+  </script>
+
+  <!-- ── PWA INSTALL BANNER ── -->
+  <div id="installBanner" style="
+    position:fixed;bottom:0;left:0;right:0;z-index:9997;
+    background:#08151E;border-top:1px solid rgba(11,126,168,0.3);
+    padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    transform:translateY(120%);transition:transform 0.4s ease;
+    box-shadow:0 -8px 32px rgba(0,0,0,0.3);
+  ">
+    <div style="display:flex;align-items:center;gap:14px;flex:1">
+      <div style="width:48px;height:48px;background:linear-gradient(135deg,#0B7EA8,#5EC4E8);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🌊</div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:#fff">Colombia Trips Co.</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:2px">Add to your home screen for quick access</div>
+      </div>
+    </div>
+    <button id="installBtn" style="
+      font-size:13px;font-weight:500;padding:10px 20px;border-radius:50px;
+      background:#0B7EA8;color:#fff;border:none;cursor:pointer;
+      white-space:nowrap;flex-shrink:0;
+      box-shadow:0 0 16px rgba(11,126,168,0.4);
+    ">Add to Home Screen</button>
+    <button id="installClose" style="
+      background:none;border:none;color:rgba(255,255,255,0.3);
+      font-size:20px;cursor:pointer;padding:4px;flex-shrink:0;
+    ">✕</button>
+  </div>
+</html>
